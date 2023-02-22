@@ -14,6 +14,10 @@
 
 ```env
 MONGO_URI=mongodb://<your mongo db uri>
+HOME_URI=http://localhost:4001
+API_URI=http://localhost:4002
+HOME_PORT=4001
+API_PORT=4002
 ```
 
 ### Running
