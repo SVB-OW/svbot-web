@@ -1,0 +1,25 @@
+name: Deployment
+
+on:
+  push:
+    branches: [main, ci*]
+  workflow_dispatch:
+
+jobs:
+  run:
+    env:
+      CI: true
+      NODE_ENV: production
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      HOME_URI: ${{ secrets.HOME_URI }}
+      API_URI: ${{ secrets.API_URI }}
+      HOME_PORT: ${{ secrets.HOME_PORT }}
+      API_PORT: ${{ secrets.API_PORT }}
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - run: asdf --version && node --version && yarn --version
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: pm2 delete svbot-web || true
+      - run: pm2 start npm --name "svbot-web" -- start

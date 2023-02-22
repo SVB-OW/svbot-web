@@ -1,0 +1,267 @@
+:root {
+	--greenBG: #082122;
+	--orangeEdge: #ef9200;
+
+	--edgeCut: 35px;
+
+	--teamWidth: 615px;
+	--teamHeight: 53px;
+	--teamPadding: 100px;
+
+	--midblockWidth: 400px;
+	--midblockFontSize: 23px;
+	--midblockFontWeight: 500;
+
+	--teamFontSize: 30px;
+	--teamTextTop: 8px;
+	--teamTextSpace: 60px;
+
+	--footerFontSize: 26px;
+	--footerFontWeight: 100;
+	--footerImgPad: 10px;
+	--footerMidWidth: 74px;
+	--footerWidth: 820px;
+	--footerTextHeight: 60px;
+}
+
+body {
+	margin: 0;
+	font-family: 'Arial Narrow', sans-serif;
+	font-weight: bold;
+	color: #ffffff;
+	width: 1920px;
+	height: 1080px;
+	overflow: auto;
+	background-repeat: no-repeat;
+}
+
+#overlay {
+	text-transform: uppercase;
+}
+
+#board {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1920px;
+}
+
+#team0 {
+	clip-path: polygon(0 0, calc(100% - var(--edgeCut)) 0, 100% 100%, 0 100%);
+	background-color: var(--orangeEdge);
+	text-align: right;
+	padding-right: var(--teamPadding);
+}
+
+#team0:after {
+	content: '';
+	width: calc(var(--teamWidth) + var(--teamPadding) - 2px);
+	height: calc(var(--teamHeight) - 1px);
+	clip-path: polygon(0 0, calc(100% - var(--edgeCut)) 0, 100% 100%, 0 100%);
+	background: var(--greenBG);
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+#team1 {
+	clip-path: polygon(var(--edgeCut) 0, 100% 0, 100% 100%, 0 100%);
+	background-color: var(--orangeEdge);
+	left: 1205px;
+	padding-left: var(--teamPadding);
+}
+
+#team1:before {
+	content: '';
+	width: calc(var(--teamWidth) + var(--teamPadding) - 2px);
+	height: calc(var(--teamHeight) - 1px);
+	clip-path: polygon(var(--edgeCut) 0, 100% 0, 100% 100%, 0 100%);
+	background: var(--greenBG);
+	display: block;
+	position: absolute;
+	left: 2px;
+	top: 0px;
+}
+
+#team0,
+#team1 {
+	position: absolute;
+	top: 0;
+	width: var(--teamWidth);
+	height: var(--teamHeight);
+	font-size: var(--teamFontSize);
+	overflow: hidden;
+}
+
+#team0record img,
+#team1record img {
+	height: 30px;
+	width: 30px;
+}
+
+#team0record,
+#team1record {
+	margin-right: 70px;
+	top: 11px;
+	position: relative;
+	z-index: 1;
+}
+
+#team0text,
+#team1text {
+	position: relative;
+	top: var(--teamTextTop);
+	font-size: var(--teamFontSize);
+	z-index: 1;
+}
+
+#team0text {
+	right: var(--teamTextSpace);
+}
+
+#team1text {
+	left: var(--teamTextSpace);
+}
+
+#midblock {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: var(--teamHeight);
+	margin-left: auto;
+	margin-right: auto;
+	width: var(--midblockWidth);
+	font-size: var(--midblockFontSize);
+	font-weight: var(--midblockFontWeight);
+	text-align: center;
+	background-color: var(--orangeEdge);
+	clip-path: polygon(0 0, 100% 0, calc(100% - var(--edgeCut)) 100%, var(--edgeCut) 100%);
+}
+
+#midblock:before {
+	content: '';
+	width: calc(var(--midblockWidth) - 50px);
+	height: calc(var(--teamHeight) - 1px);
+	clip-path: polygon(0 0, 100% 0, 100% 100%, var(--edgeCut) 100%);
+	background: var(--greenBG);
+	display: block;
+	position: absolute;
+	left: 1px;
+	top: 0px;
+}
+
+#midblock:after {
+	content: '';
+	width: calc(var(--midblockWidth) - 51.55px);
+	height: calc(var(--teamHeight) - 1px);
+	clip-path: polygon(0 0, 100% 0, calc(100% - var(--edgeCut)) 100%, 0 100%);
+	background: var(--greenBG);
+	display: block;
+	position: absolute;
+	left: 50px;
+	top: 0px;
+}
+
+#midblock span {
+	z-index: 1;
+	position: relative;
+	top: 12px;
+}
+
+#footer {
+	position: absolute;
+	top: 990px;
+	left: 550px;
+	height: 90px;
+	width: var(--footerWidth);
+}
+
+#footerLeft,
+#footerRight {
+	width: calc(100% / 2);
+	height: var(--footerTextHeight);
+	margin-top: 30px;
+	background-color: var(--orangeEdge);
+	top: 0;
+}
+
+#footerLeft span {
+	text-align: right;
+	padding-right: 20px;
+}
+
+#footerRight span {
+	text-align: left;
+}
+
+#footerLeft span,
+#footerRight span {
+	z-index: 2;
+	position: absolute;
+	width: 300px;
+	left: 48px;
+	margin-top: 15px;
+	font-size: var(--footerFontSize);
+	font-weight: var(--footerFontWeight);
+}
+
+#footerLeft span img,
+#footerRight span img {
+	padding-left: var(--footerImgPad);
+	padding-right: var(--footerImgPad);
+	height: 25px;
+	top: 3px;
+	position: relative;
+}
+
+#footerLeft {
+	clip-path: polygon(var(--edgeCut) 0, 100% 0, 100% 100%, 0 100%);
+}
+
+#footerLeft::before {
+	content: '';
+	width: calc(100% / 2);
+	height: calc(var(--footerTextHeight) - 1px);
+	top: 0px;
+	margin-top: 31px;
+	clip-path: polygon(var(--edgeCut) 0, 100% 0, 100% 100%, 1px 100%);
+	background: var(--greenBG);
+	position: absolute;
+	left: 1px;
+}
+
+#footerRight {
+	clip-path: polygon(0 0, calc(100% - var(--edgeCut)) 0, 100% 100%, 0 100%);
+	left: calc(100% / 2);
+	position: inherit;
+}
+
+#footerRight::after {
+	content: '';
+	width: 100%;
+	height: calc(var(--footerTextHeight) - 1px);
+	top: 0px;
+	margin-top: 1px;
+	clip-path: polygon(0 0, calc(100% - var(--edgeCut)) 0, calc(100% - 1px) 100%, 0 100%);
+	background: var(--greenBG);
+	position: inherit;
+	right: 1px;
+}
+
+#footerMid {
+	width: var(--footerMidWidth);
+	height: calc(100% - 15px);
+	margin-top: 15px;
+	overflow: hidden;
+	top: 0;
+	left: calc(var(--footerWidth) / 2 - var(--footerMidWidth) / 2);
+	position: inherit;
+	z-index: 1;
+}
+
+#footerMid img {
+	width: 100%;
+	margin-top: 1px;
+}
