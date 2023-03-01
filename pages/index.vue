@@ -11,16 +11,21 @@
 
 		<br /><br />
 
-    <TheLeaderboard />
+		<TheLeaderboard />
 	</main>
 </template>
 
 <script lang="ts">
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Vue from 'vue'
 import { Contestant } from '@/types'
 
 export default Vue.extend({
+	computed: {
+		...mapGetters({
+			allContestants: 'contestants/read',
+		}),
+	},
 	methods: {
 		...mapActions({
 			createContestant: 'contestants/create',
@@ -63,5 +68,4 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

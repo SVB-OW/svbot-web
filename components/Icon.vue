@@ -15,17 +15,10 @@ import Vue from 'vue'
 
 export default Vue.extend({
 	layout: 'empty',
-	async fetch(): Promise<void> {
-		// await this.loadContestants()
-		// await this.loadCurrentGame()
-	},
 	computed: {
 		...mapGetters({
 			currentGame: 'currentGame/read',
 		}),
-	},
-	mounted() {
-		this.$startWS()
 	},
 })
 </script>

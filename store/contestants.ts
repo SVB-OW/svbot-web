@@ -3,206 +3,7 @@ import { Contestant } from '~/types'
 const apiEndpoint = process.env.API_URI + '/api/contestants'
 
 export const state = () => ({
-	list: <Contestant[]>[
-		{
-			_id: '63e9265ea988230ff1b07f1a',
-			name: 'Forgiving',
-			region: 'NA',
-			personalBest: 0,
-			currentTotal: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63e93a683d21301753d0911d',
-			name: 'Bogur',
-			region: 'EU',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63e94b913d21301753d0911e',
-			name: 'Arrge',
-			region: 'EU',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63e9557e3d21301753d0911f',
-			name: 'Dan Fenner',
-			region: 'NA',
-			personalBest: 298,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 298,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63e965873d21301753d09120',
-			name: 'Custa',
-			region: 'NA',
-			personalBest: 345,
-			bronzePoints: 0,
-			silverPoints: 345,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63f26417e48bd3e80e1cff01',
-			name: 'Ml7',
-			personalBest: 378,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63f27724e48bd3e80e1cff02',
-			name: 'Somnus',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63f288fce48bd3e80e1cff03',
-			name: 'Bowie',
-			personalBest: 405,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 405,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63f2953fe48bd3e80e1cff04',
-			name: 'Skiesti',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63f2a129e48bd3e80e1cff05',
-			name: 'Emiliath',
-			personalBest: 496,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 496,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fb9cbc030f5c5a054bc0a1',
-			name: 'Yeatle',
-			personalBest: 485,
-			bronzePoints: 485,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fba723030f5c5a054bc0a2',
-			name: 'Yeatle 2',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fbad1d030f5c5a054bc0a3',
-			name: 'Eskay',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fbb9a7030f5c5a054bc0a4',
-			name: 'Hcpeful',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fbc507030f5c5a054bc0a5',
-			name: 'bame1',
-			personalBest: 140,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 140,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-		{
-			_id: '63fbd2e2030f5c5a054bc0a6',
-			name: 'Javion',
-			personalBest: 0,
-			bronzePoints: 0,
-			silverPoints: 0,
-			goldPoints: 0,
-			platinumPoints: 0,
-			diamondPoints: 0,
-			masterPoints: 0,
-			grandmasterPoints: 0,
-		},
-	],
+	list: <Contestant[]>[],
 })
 
 export type ContestantState = ReturnType<typeof state>
@@ -237,7 +38,7 @@ export const actions: ActionTree<ContestantState, any> = {
 		commit('load', res)
 		return res
 	},
-	async create({ commit }, payload: any) {
+	async create({ state, commit }, payload: Partial<Contestant>) {
 		const res = await fetch(apiEndpoint, {
 			method: 'POST',
 			headers: {
@@ -248,9 +49,10 @@ export const actions: ActionTree<ContestantState, any> = {
 
 		payload._id = res.insertedId
 		commit('create', new Contestant(payload))
+		this.$publishContestants(state.list)
 		return res.insertedId
 	},
-	async update({ commit }, payload: any) {
+	async update({ state, commit }, payload: Partial<Contestant>) {
 		const res = await fetch(apiEndpoint, {
 			method: 'PUT',
 			headers: {
@@ -260,9 +62,10 @@ export const actions: ActionTree<ContestantState, any> = {
 		}).then(response => response.json())
 
 		commit('update', new Contestant(payload))
+		this.$publishContestants(state.list)
 		return res
 	},
-	async delete({ commit }, payload: string) {
+	async delete({ state, commit }, payload: string) {
 		await fetch(apiEndpoint, {
 			method: 'DELETE',
 			headers: {
@@ -271,5 +74,9 @@ export const actions: ActionTree<ContestantState, any> = {
 			body: payload,
 		})
 		commit('delete', payload)
+		this.$publishContestants(state.list)
+	},
+	writeStore({ commit }, payload: Contestant[]) {
+		commit('load', payload)
 	},
 }

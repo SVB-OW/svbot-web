@@ -23,7 +23,8 @@ export default Vue.extend({
 		await this.loadCurrentGame()
 	},
 	mounted() {
-		this.$startWS()
+		this.$subscribeContestants()
+		this.$subscribeGame()
 	},
 	methods: {
 		...mapActions({

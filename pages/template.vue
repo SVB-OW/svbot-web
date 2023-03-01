@@ -34,15 +34,11 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import Vue from 'vue'
 
 export default Vue.extend({
 	layout: 'empty',
-	async fetch(): Promise<void> {
-		await this.loadContestants()
-		await this.loadCurrentGame()
-	},
 	computed: {
 		...mapGetters({
 			allRanks: 'ranks/read',
@@ -50,14 +46,7 @@ export default Vue.extend({
 			currentContestant: 'currentGame/contestant',
 		}),
 	},
-	mounted() {
-		this.$startWS()
-	},
 	methods: {
-		...mapActions({
-			loadContestants: 'contestants/load',
-			loadCurrentGame: 'currentGame/load',
-		}),
 		gamesPlayed(): number {
 			let count = 0
 			if (this.currentContestant.bronzePoints > 0) count++

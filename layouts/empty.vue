@@ -6,8 +6,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapActions } from 'vuex'
 
 export default Vue.extend({
+	async fetch(): Promise<void> {
+		await this.loadContestants()
+		await this.loadCurrentGame()
+	},
 	head: {
 		link: [
 			{
@@ -19,6 +24,16 @@ export default Vue.extend({
 				rel: 'stylesheet',
 			},
 		],
+	},
+	mounted() {
+		this.$subscribeContestants()
+		this.$subscribeGame()
+	},
+	methods: {
+		...mapActions({
+			loadContestants: 'contestants/load',
+			loadCurrentGame: 'currentGame/load',
+		}),
 	},
 })
 </script>

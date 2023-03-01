@@ -45,6 +45,7 @@ import Vue from 'vue'
 import type { Contestant } from '@/types'
 
 export default Vue.extend({
+	layout: 'empty',
 	props: {
 		standalone: {
 			type: Boolean,

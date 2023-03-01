@@ -1,28 +1,10 @@
 import type { ActionTree, GetterTree, MutationTree } from 'vuex'
-import { Contestant, Game, Handicap } from '~/types'
+import { Contestant, Game } from '~/types'
 import type { RankMultiplier } from '~/types'
 const apiEndpoint = process.env.API_URI + '/api/currentGame'
 
 export const state = () => ({
-	currentGame: new Game({
-		handicaps: [
-			new Handicap({
-				points: 50,
-				img: 'no_ui.png',
-				text: 'UI OFF',
-			}),
-			new Handicap({
-				points: 175,
-				img: 'rank_up_enemy.png',
-				text: 'RANK UP THE ENEMY',
-			}),
-			new Handicap({
-				points: 100,
-				img: 'enemy_hp_up.png',
-				text: 'ENEMY HP UP 1.25X',
-			}),
-		],
-	}),
+	currentGame: new Game(),
 })
 
 export type ContestantState = ReturnType<typeof state>
@@ -70,7 +52,7 @@ export const actions: ActionTree<ContestantState, any> = {
 		// TODO: subtract boons
 		payload.wager = Math.floor(amountHandicaps)
 
-		this.$emitWS(payload)
+		this.$publishGame(payload)
 
 		return await fetch(apiEndpoint, {
 			method: 'POST',

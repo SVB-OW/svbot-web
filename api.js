@@ -78,6 +78,8 @@ app.post('/api/contestants', async (req, res) => {
 		const collection = await db.collection('contestants')
 
 		const result = await collection.insertOne(req.body)
+		io.emit('contestants updated', await collection.find().toArray())
+
 		res.json(result)
 	} catch (e) {
 		console.error('e', e)
@@ -93,6 +95,7 @@ app.put('/api/contestants', async (req, res) => {
 		const id = ObjectId(req.body._id)
 		delete req.body._id
 		const result = await collection.updateOne({ _id: id }, { $set: req.body })
+		io.emit('contestants updated', await collection.find().toArray())
 
 		res.json({ modifiedCount: result.modifiedCount })
 	} catch (e) {
@@ -107,6 +110,7 @@ app.delete('/api/contestants', async (req, res) => {
 		const collection = await db.collection('contestants')
 
 		const result = await collection.deleteOne(req.body)
+		io.emit('contestants updated', await collection.find().toArray())
 
 		res.json(result)
 	} catch (e) {
@@ -132,6 +136,9 @@ app.post('/api/currentGame', (req, res) => {
 io.on('connection', socket => {
 	socket.on('game updated', game => {
 		socket.emit('game updated', game)
+	})
+	socket.on('contestants updated', list => {
+		socket.emit('contestants updated', list)
 	})
 })
 
