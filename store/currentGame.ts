@@ -1,10 +1,28 @@
 import type { ActionTree, GetterTree, MutationTree } from 'vuex'
-import { Contestant, Game } from '~/types'
+import { Contestant, Game, Handicap } from '~/types'
 import type { RankMultiplier } from '~/types'
 const apiEndpoint = process.env.API_URI + '/api/currentGame'
 
 export const state = () => ({
-	currentGame: new Game(),
+	currentGame: new Game({
+		handicaps: [
+			new Handicap({
+				points: 50,
+				img: 'no_ui.png',
+				text: 'UI OFF',
+			}),
+			new Handicap({
+				points: 175,
+				img: 'rank_up_enemy.png',
+				text: 'RANK UP THE ENEMY',
+			}),
+			new Handicap({
+				points: 100,
+				img: 'enemy_hp_up.png',
+				text: 'ENEMY HP UP 1.25X',
+			}),
+		],
+	}),
 })
 
 export type ContestantState = ReturnType<typeof state>
@@ -22,7 +40,7 @@ export const getters: GetterTree<ContestantState, any> = {
 }
 
 export const mutations: MutationTree<ContestantState> = {
-	update(state, payload: any) {
+	update(state, payload: Partial<Game>) {
 		state.currentGame = Object.assign({}, state.currentGame, payload)
 	},
 }

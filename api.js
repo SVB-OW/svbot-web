@@ -20,6 +20,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new socketIo.Server(server, { cors: corsOptions })
 
+console.log('corsOptions', corsOptions)
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

@@ -1,11 +1,12 @@
 <template>
-	<div>
+	<div class="layout-default">
 		<nav>
 			<router-link to="/">Leaderboard</router-link>
 			<router-link to="/chooseRank">Choose Rank</router-link>
 			<router-link to="/chooseHandicaps">Choose Handicaps</router-link>
 			<a href="/template.htm">Original Template</a>
 			<a href="/template">Stream Overlay</a>
+			<a href="/stream-elements">Stream Elements</a>
 		</nav>
 
 		<Nuxt />
@@ -40,45 +41,45 @@ export default Vue.extend({
 	--main-color: #ff9d16;
 }
 
-* {
-	box-sizing: border-box;
-	font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-html {
+html:has(.layout-default) {
 	background: var(--main-bg);
 	color: var(--main-color);
 	margin: 0;
 	padding: 0;
 }
 
-nav {
-	display: none;
+.layout-default * {
+	box-sizing: border-box;
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-h1,
-h2,
-h3 {
+.layout-default nav {
+	/* display: none; */
+}
+
+.layout-default h1,
+.layout-default h2,
+.layout-default h3 {
 	margin: 0;
 	margin-bottom: 1rem;
 }
 
-main {
+.layout-default main {
 	position: relative;
 	padding: 1rem;
 }
 
-main header {
+.layout-default main header {
 	height: 75px;
 	display: flex;
 	contain: content;
 }
 
-main header h1 {
+.layout-default main header h1 {
 	flex-grow: 1;
 }
 
-input {
+.layout-default input {
 	height: 28px;
 	background: none;
 	border: none;
@@ -86,13 +87,13 @@ input {
 	border-bottom: 1px solid silver;
 }
 
-input:focus {
+.layout-default input:focus {
 	outline: none;
 	color: white;
 	border-color: white;
 }
 
-button {
+.layout-default button {
 	margin: 5px;
 	padding: 5px 10px;
 	height: 28px;
@@ -101,7 +102,7 @@ button {
 	border: 1px solid silver;
 }
 
-a {
+.layout-default a {
 	color: silver;
 	padding: 0.5rem;
 }
