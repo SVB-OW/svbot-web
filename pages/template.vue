@@ -30,7 +30,7 @@
 			<img src="points.png" class="wager-icon" />
 		</div>
 		<div class="footer-right text-box">
-			Bounty: {{ currentGame.bounty.points }} each<br />{{ currentGame.bounty.text }}
+			<img src="/svb-side.png" alt="SVB Side" />
 		</div>
 	</div>
 </template>
@@ -199,7 +199,7 @@ body {
 	top: 1028px;
 	left: 595px;
 	width: 300px;
-	height: 55px;
+	height: 51px;
 	justify-content: end;
 }
 
@@ -208,9 +208,11 @@ body {
 	top: 1028px;
 	left: 1025px;
 	width: 300px;
-	height: 55px;
+	height: 51px;
 	justify-content: start;
-	line-height: 22px;
-	font-size: 22px;
+}
+
+.footer-right img {
+	height: 75%;
 }
 </style>
