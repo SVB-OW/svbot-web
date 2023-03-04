@@ -29,7 +29,9 @@
 			{{ currentGame.contestantName }}: {{ currentContestant.personalBest }}
 			<img src="points.png" class="wager-icon" />
 		</div>
-		<div class="footer-right text-box">Game {{ gamesPlayed() + 1 }}</div>
+		<div class="footer-right text-box">
+			Bounty: {{ currentGame.bounty.points }} each<br />{{ currentGame.bounty.text }}
+		</div>
 	</div>
 </template>
 
@@ -208,5 +210,7 @@ body {
 	width: 300px;
 	height: 55px;
 	justify-content: start;
+	line-height: 22px;
+	font-size: 22px;
 }
 </style>
