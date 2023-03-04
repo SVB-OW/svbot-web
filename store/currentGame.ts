@@ -22,7 +22,7 @@ export const getters: GetterTree<ContestantState, any> = {
 }
 
 export const mutations: MutationTree<ContestantState> = {
-	update(state, payload: any) {
+	update(state, payload: Partial<Game>) {
 		state.currentGame = Object.assign({}, state.currentGame, payload)
 	},
 }
@@ -52,7 +52,7 @@ export const actions: ActionTree<ContestantState, any> = {
 		// TODO: subtract boons
 		payload.wager = Math.floor(amountHandicaps)
 
-		this.$emitWS(payload)
+		this.$publishGame(payload)
 
 		return await fetch(apiEndpoint, {
 			method: 'POST',
