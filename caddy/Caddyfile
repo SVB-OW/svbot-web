@@ -1,0 +1,15 @@
+gauntlet.dogers.uk {
+    encode gzip
+
+	handle /* {
+		reverse_proxy backend:40001
+	}
+}
+
+gauntlet-api.dogers.uk {
+    encode gzip
+
+	handle /* {
+		reverse_proxy backend:40002
+	}
+}
