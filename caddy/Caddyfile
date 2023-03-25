@@ -1,15 +1,14 @@
 gauntlet.dogers.uk {
-    encode gzip
-
-	handle /* {
-		reverse_proxy backend:40001
-	}
+        handle_path /socket.io/* {
+                rewrite * /socket.io{path}
+                reverse_proxy svbot-web:40002
+        }
+        handle_path /undefined/* {
+                reverse_proxy svbot-web:40002
+        }
+        reverse_proxy svbot-web:40001
 }
 
 gauntlet-api.dogers.uk {
-    encode gzip
-
-	handle /* {
-		reverse_proxy backend:40002
-	}
+        reverse_proxy svbot-web:40002
 }
