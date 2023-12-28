@@ -27,8 +27,8 @@
 		"express-ws": "^5.0.2",
 		"mongodb": "^4.11.0",
 		"nuxt": "^2.15.8",
-		"socket.io": "^4.3.2",
-		"socket.io-client": "^4.6.1",
+		"socket.io": "^4.6.1",
+		"socket.io-client": "^4.3.2",
 		"vue": "^2.7.10",
 		"vue-server-renderer": "^2.7.10",
 		"vue-template-compiler": "^2.7.10"
