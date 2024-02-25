@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranked Gauntlet Calculator</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="calculator">
+            <h1>Ranked Gauntlet</h1>
+
+            <div class="ranks">
+                <div v-for="(r, i) in ranks" :key="i" @click="selectRank(r)" :class="r.selected ? 'selected' : ''">
+                    <img :src="r.img" />
+                </div>
+            </div>
+
+            <div>
+                <span style="margin-top: 24px; margin-bottom: 16px; display:block; text-align: end;">Total</span>
+            </div>
+            <div class="handicaps">
+                <template v-for="cap in handicaps" :key="cap.name">
+                    <span>{{ cap.name }}</span>
+                    <button @click="cap.multiplier--">-</button>
+                    <span>{{ cap.multiplier }}</span>
+                    <button @click="cap.multiplier++">+</button>
+                    <span style="text-align: end; min-width: 40px;">{{ multiplyByRank(cap.points, cap.multiplier)}}</span>
+                </template>
+            </div>
+
+            <div style="flex:1 1 auto;"></div>
+
+            <h2>Total: {{ totalPoints() }}</h2>
+
+            <div>
+                <button @click="reset" style="margin-left: auto; display: block; padding: 4px 8px;">Reset</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
