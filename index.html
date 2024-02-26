@@ -25,7 +25,7 @@
             </div>
             <div class="handicaps">
                 <template v-for="cap in handicaps" :key="cap.name">
-                    <span>{{ cap.name }}</span>
+                    <span style="justify-self: start">{{ cap.name }}</span>
                     <button @click="cap.multiplier--">-</button>
                     <span>{{ cap.multiplier }}</span>
                     <button @click="cap.multiplier++">+</button>
@@ -38,7 +38,7 @@
             <h2>Total: {{ totalPoints() }}</h2>
 
             <div>
-                <button @click="reset" style="margin-left: auto; display: block; padding: 4px 8px;">Reset</button>
+                <button @click="reset" style="margin-left: auto; display: block; padding: 4px 12px; border: 1px solid gray;">Reset</button>
             </div>
         </div>
     </div>
