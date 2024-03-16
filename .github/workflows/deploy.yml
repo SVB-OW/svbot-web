@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
       - run: yarn build
       - run: pm2 delete svbot-web || true
       - run: pm2 start npm --name "svbot-web" -- start

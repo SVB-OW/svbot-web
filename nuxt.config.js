@@ -11,7 +11,7 @@ export default {
 		],
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/gauntlet.50lr.webp' },
-			{ rel: 'preload', as: 'style', href: 'https://fonts.bunny.net/css?family=Rubik' },
+			{ href: 'https://fonts.bunny.net/css?family=Rubik' },
 		],
 	},
 	env: {
@@ -20,7 +20,7 @@ export default {
 		API_URI: process.env.API_URI,
 	},
 	server: {
-		host: '0',
+		host: '0.0.0.0',
 		port: process.env.HOME_PORT,
 	},
 	ssr: false,
