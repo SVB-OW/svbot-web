@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  svbot-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: svbot-web
+    command: npm start
+    env_file:
+      - .env
+    ports:
+      - "40001:40001"
+      - "40002:40002"
+  caddy:
+    image: caddy:2.6
+    restart: unless-stopped
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    ports:
+      - "80:80"
+      - "443:443"
