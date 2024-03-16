@@ -6,3 +6,8 @@ dockerup-dev:
 
 dockerdown:
 	docker-compose down
+
+dockerupdate:
+  docker-compose down
+  docker-compose build --no-cache
+  docker-compose up -d
