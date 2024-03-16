@@ -1,4 +1,4 @@
-gauntlet.dogers.uk {
+gauntlet.dendorfer.xyz {
         handle_path /socket.io/* {
                 rewrite * /socket.io{path}
                 reverse_proxy svbot-web:40002
@@ -9,6 +9,6 @@ gauntlet.dogers.uk {
         reverse_proxy svbot-web:40001
 }
 
-gauntlet-api.dogers.uk {
+gauntlet-api.dendorfer.xyz {
         reverse_proxy svbot-web:40002
 }
