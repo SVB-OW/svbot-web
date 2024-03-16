@@ -11,3 +11,11 @@ Vue in Nuxt with TypeScript, MongoDB and Socket.io
 - Figma: <https://www.figma.com/file/ZIaIC7sFGchAHS9T3FhH6e/SVBot-Web>n
 - Figma Demo:
   <https://www.figma.com/file/ZIaIC7sFGchAHS9T3FhH6e/Untitled?node-id=5%3A3>
+
+## Future Tasks
+
+- [ ] Allow stacking of handicaps
+- [ ] Upgrade to Nuxt 3 / Vue 3
+- [ ] Allow DB to be changed via ENV
+- [ ] Use single port for both server and client
+- [ ] Serve 1 route that updates the view for everyone
