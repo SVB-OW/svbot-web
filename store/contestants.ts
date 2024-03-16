@@ -38,7 +38,7 @@ export const actions: ActionTree<ContestantState, any> = {
 		commit('load', res)
 		return res
 	},
-	async create({ commit }, payload: any) {
+	async create({ state, commit }, payload: Partial<Contestant>) {
 		const res = await fetch(apiEndpoint, {
 			method: 'POST',
 			headers: {
@@ -49,9 +49,10 @@ export const actions: ActionTree<ContestantState, any> = {
 
 		payload._id = res.insertedId
 		commit('create', new Contestant(payload))
+		this.$publishContestants(state.list)
 		return res.insertedId
 	},
-	async update({ commit }, payload: any) {
+	async update({ state, commit }, payload: Partial<Contestant>) {
 		const res = await fetch(apiEndpoint, {
 			method: 'PUT',
 			headers: {
@@ -61,9 +62,10 @@ export const actions: ActionTree<ContestantState, any> = {
 		}).then(response => response.json())
 
 		commit('update', new Contestant(payload))
+		this.$publishContestants(state.list)
 		return res
 	},
-	async delete({ commit }, payload: string) {
+	async delete({ state, commit }, payload: string) {
 		await fetch(apiEndpoint, {
 			method: 'DELETE',
 			headers: {
@@ -72,5 +74,9 @@ export const actions: ActionTree<ContestantState, any> = {
 			body: payload,
 		})
 		commit('delete', payload)
+		this.$publishContestants(state.list)
+	},
+	writeStore({ commit }, payload: Contestant[]) {
+		commit('load', payload)
 	},
 }

@@ -24,14 +24,6 @@
 			Team
 		</div>
 		<div class="team2-icon"><img :src="`ranks/orange/${currentGame.rank2}.png`" /></div>
-
-		<div class="footer-left text-box">
-			{{ currentGame.contestantName }}: {{ currentContestant.personalBest }}
-			<img src="points.png" class="wager-icon" />
-		</div>
-		<div class="footer-right text-box">
-			<img src="/svb-side.png" alt="SVB Side" />
-		</div>
 	</div>
 </template>
 
@@ -43,29 +35,13 @@ export default Vue.extend({
 	layout: 'empty',
 	computed: {
 		...mapGetters({
-			allRanks: 'ranks/read',
 			currentGame: 'currentGame/read',
-			currentContestant: 'currentGame/contestant',
 		}),
-	},
-	methods: {
-		gamesPlayed(): number {
-			let count = 0
-			if (this.currentContestant.bronzePoints > 0) count++
-			if (this.currentContestant.silverPoints > 0) count++
-			if (this.currentContestant.goldPoints > 0) count++
-			if (this.currentContestant.platinumPoints > 0) count++
-			if (this.currentContestant.diamondPoints > 0) count++
-			if (this.currentContestant.masterPoints > 0) count++
-			if (this.currentContestant.grandmasterPoints > 0) count++
-
-			return count
-		},
 	},
 })
 </script>
 
-<style>
+<style scoped>
 * {
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
@@ -95,7 +71,7 @@ body {
 	background: grey;
 	background: url('/overlay_background.png');
 	width: 1920px;
-	height: 1080px;
+	height: 54px;
 	position: relative;
 }
 
@@ -180,27 +156,5 @@ body {
 .header-center .wager-icon {
 	width: 20px;
 	height: 20px;
-}
-
-.footer-left {
-	position: absolute;
-	top: 1028px;
-	left: 595px;
-	width: 300px;
-	height: 51px;
-	justify-content: end;
-}
-
-.footer-right {
-	position: absolute;
-	top: 1028px;
-	left: 1025px;
-	width: 300px;
-	height: 51px;
-	justify-content: start;
-}
-
-.footer-right img {
-	height: 75%;
 }
 </style>
