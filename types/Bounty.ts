@@ -3,7 +3,8 @@ import {} from '.'
 export class Bounty {
 	points = 0
 	img = ''
-	text = '';
+	text = ''
+	stack = 0;
 
 	[key: string]: any // makes object properties indexable
 

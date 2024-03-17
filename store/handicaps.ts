@@ -38,16 +38,19 @@ export const state = () => ({
 			points: 175,
 			img: 'rank_up_enemy.png',
 			text: 'RANK UP THE ENEMY',
+			maxStack: 6,
 		}),
 		new Handicap({
 			points: 175,
 			img: 'one_less_player.png',
 			text: '1 LESS PLAYER',
+			maxStack: 4,
 		}),
 		new Handicap({
 			points: 60,
 			img: 'respawn_timer.png',
 			text: 'INCREASE RESPAWN TIMER',
+			maxStack: 3,
 		}),
 		new Handicap({
 			points: 90,

@@ -23,26 +23,52 @@
 						v-for="(item, i) in allHandicaps"
 						:key="i"
 						class="handicap-item"
-						:class="{ selected: isSelected(item) }"
+						:class="{ selected: selectedHandicap(item) }"
 						@click="toggleHandicap(item)"
 					>
-						<img :src="isSelected(item) ? 'points_black.png' : 'points.png'" alt="Points" class="points" />
+						<img :src="selectedHandicap(item) ? 'points_black.png' : 'points.png'" alt="Points" class="points" />
 
 						{{ Math.floor(item.points * rankMultiplier) }}
 
 						<div class="spacer"></div>
 
-						<img :src="'handicaps/' + (isSelected(item) ? 'black/' : 'orange/') + item.img" :alt="item.text" />
+						<img :src="'handicaps/' + (selectedHandicap(item) ? 'black/' : 'orange/') + item.img" :alt="item.text" />
 
 						<div class="spacer"></div>
 
 						<span>{{ item.text }}</span>
+
+						<div class="flex-spacer"></div>
+
+						<button v-if="item.maxStack > 1 && selectedHandicap(item)?.stack > 1" @click.stop="updateStack(item, -1)">
+							-
+						</button>
+						<div class="spacer"></div>
+						<span v-if="selectedHandicap(item)?.stack > 1">
+							{{ selectedHandicap(item)?.stack }}
+						</span>
+						<div class="spacer"></div>
+						<button
+							v-if="item.maxStack > 1 && selectedHandicap(item)"
+							:disabled="selectedHandicap(item)?.stack >= item.maxStack"
+							@click.stop="updateStack(item, 1)"
+						>
+							+
+						</button>
 					</div>
 				</div>
 
 				<div class="bounties">
 					<div v-for="(item, i) in allBounties" :key="i" @click="selectBounty(item)">
 						<img :src="'bounties/' + (item.text === currentGame.bounty.text ? 'on/' : 'off/') + item.img" alt="" />
+						<input
+							v-if="item.text === currentGame.bounty.text"
+							:value="currentGame.bounty.stack"
+							@input="updateBounty"
+							@click.stop
+							type="number"
+							min="0"
+						/>
 					</div>
 				</div>
 			</div>
@@ -82,17 +108,6 @@ export default Vue.extend({
 		rankMultiplier(): number {
 			return this.allRanks.find((r: Rank) => r === this.currentGame.rank)?.multiplier || 1
 		},
-		currentTotal(): number {
-			const amountHandicaps = Math.floor(
-				this.allHandicaps
-					.filter((h: Handicap) => h.selected)
-					.reduce((accumulator: number, currentValue: Handicap) => {
-						return accumulator + currentValue.points
-					}, 0) * this.rankMultiplier,
-			)
-
-			return amountHandicaps
-		},
 	},
 	methods: {
 		...mapActions({
@@ -117,13 +132,20 @@ export default Vue.extend({
 			this.currentContestant.masterPoints = 0
 			this.currentContestant.grandmasterPoints = 0
 
+			this.currentContestant[this.currentGame.rank + 'Points'] =
+				this.currentGame.bounty.points * this.currentGame.bounty.stack
+			this.currentContestant.personalBest = Math.max(
+				this.currentContestant.personalBest,
+				this.currentGame.bounty.points * this.currentGame.bounty.stack,
+			)
+
 			this.updateContestant(this.currentContestant)
 
 			this.$router.push('/')
 			this.resetCurrentGame()
 		},
 		toggleHandicap(handicap: Handicap): void {
-			if (this.isSelected(handicap)) {
+			if (this.selectedHandicap(handicap)) {
 				// Remove handicap text from currentGame
 				this.updateCurrentGame({
 					handicaps: (this.currentGame as Game).handicaps.filter(h => h.text !== handicap.text),
@@ -131,15 +153,32 @@ export default Vue.extend({
 			} else {
 				// Add handicap text to currentGame
 				this.updateCurrentGame({
-					handicaps: [...(this.currentGame as Game).handicaps, handicap],
+					handicaps: [...(this.currentGame as Game).handicaps, { ...handicap, stack: 1 }],
 				})
 			}
+		},
+		updateStack(handicap: Handicap, stack: number): void {
+			const newHandicaps = (this.currentGame as Game).handicaps
+				.map(h => ({ ...h })) // Remove refs
+				.map(h => {
+					if (h.text === handicap.text) h.stack += stack
+					return h
+				})
+
+			this.updateCurrentGame({ handicaps: newHandicaps })
 		},
 		selectBounty(bounty: Bounty): void {
 			this.updateCurrentGame({ bounty })
 		},
-		isSelected(handicap: Handicap): boolean {
-			return (this.currentGame as Game).handicaps.some(h => h.text === handicap.text)
+		selectedHandicap(handicap: Handicap): Handicap | undefined {
+			return (this.currentGame as Game).handicaps.find(h => h.text === handicap.text)
+		},
+		selectedBounty(): Bounty | undefined {
+			return this.currentGame.bounty
+		},
+		updateBounty(event: Event): void {
+			const stack = parseInt((event.target as HTMLInputElement).value)
+			this.updateCurrentGame({ ...this.currentGame, bounty: { ...this.currentGame.bounty, stack } })
 		},
 		resetCurrentGame(): void {
 			this.updateCurrentGame(new Game())
@@ -169,10 +208,11 @@ h2 {
 	margin: 0 0 0.5rem;
 	transition: 0.3s ease;
 	clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 100%, 0 100%);
+	padding-right: 40px;
 }
 
 .split-view .handicaps-list .handicap-item.selected {
-	background-color: #ff9d16;
+	background-color: var(--main-color);
 	color: black;
 }
 
@@ -205,6 +245,14 @@ h2 {
 	width: 20px;
 }
 
+.split-view .handicaps-list .handicap-item button {
+	margin: 3px 0;
+	height: calc(100% - 6px);
+	padding: 0;
+	aspect-ratio: 1 / 1;
+	background: var(--main-bg);
+}
+
 .split-view .current-wager {
 	display: flex;
 	flex-direction: column;
@@ -225,5 +273,9 @@ h2 {
 
 .spacer {
 	width: 10px;
+}
+
+.flex-spacer {
+	flex: 1 1 auto;
 }
 </style>

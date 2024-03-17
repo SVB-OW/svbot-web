@@ -99,6 +99,7 @@ button {
 	background: none;
 	color: white;
 	border: 1px solid silver;
+	cursor: pointer;
 }
 
 a {

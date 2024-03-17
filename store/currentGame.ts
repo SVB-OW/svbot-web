@@ -45,10 +45,12 @@ export const actions: ActionTree<ContestantState, any> = {
 
 		let amountHandicaps = 0
 		tempGame.handicaps.forEach(h => {
-			amountHandicaps += h.points * currentRankMultiplier
+			amountHandicaps += h.points * currentRankMultiplier * h.stack
 		})
 
-		payload.wager = Math.floor(amountHandicaps)
+		const amountBounties = tempGame.bounty.points * tempGame.bounty.stack
+
+		payload.wager = Math.floor(amountHandicaps + amountBounties)
 
 		this.$emitWS(payload)
 
