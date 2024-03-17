@@ -13,18 +13,6 @@
 					<img src="points.png" alt="points" width="20px" />
 				</h2>
 
-				<!-- <div class="boons-grid">
-          <button
-            v-for="boon in allBoons"
-            :key="boon.text"
-            @click="currentGame.boons.push({ ...boon })"
-            :disabled="currentTotal < Math.floor(boon.points * rankMultiplier)"
-          >
-            {{ boon.text }} {{ Math.floor(boon.points * rankMultiplier) }}
-            <img src="points_black.png" alt="points" width="15px" />
-          </button>
-        </div> -->
-
 				<button @click="defeat">DEFEAT</button>
 				<button @click="victory">VICTORY</button>
 
@@ -68,22 +56,6 @@
 					<img src="points.png" alt="Points Icon" />
 					{{ currentGame.wager }}
 				</div>
-
-				<br />
-
-				<!-- <div v-if="currentGame.boons.length" class="boons-cart">
-          <h4>BOONS CART</h4>
-
-          <div v-for="(boon, i) in currentGame.boons" :key="i">
-            <span>
-              {{ boon.text }} {{ boon.points }}
-              <img src="points.png" alt="Points Icon" />
-            </span>
-            <button @click="currentGame.boons = currentGame.boons.filter((b: Boon) => b.stack !== boon.stack)">
-              X
-            </button>
-          </div>
-        </div> -->
 			</div>
 		</div>
 	</main>
@@ -92,7 +64,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapActions, mapGetters, mapState } from 'vuex'
-import type { Boon, Bounty, Handicap, Rank } from '@/types'
+import type { Bounty, Handicap, Rank } from '@/types'
 import { Game } from '@/types'
 
 export default Vue.extend({
@@ -103,7 +75,6 @@ export default Vue.extend({
 		...mapGetters({
 			allRanks: 'ranks/read',
 			allHandicaps: 'handicaps/read',
-			allBoons: 'boons/read',
 			allBounties: 'bounties/read',
 			currentGame: 'currentGame/read',
 			currentContestant: 'currentGame/contestant',
@@ -120,28 +91,9 @@ export default Vue.extend({
 					}, 0) * this.rankMultiplier,
 			)
 
-			const amountBoons = Math.floor(
-				this.currentGame.boons.reduce((accumulator: number, currentValue: Boon) => {
-					return accumulator + currentValue.points
-				}, 0) * this.rankMultiplier,
-			)
-
-			return amountHandicaps - amountBoons
+			return amountHandicaps
 		},
 	},
-	// async beforeMount(): Promise<void> {
-	//   const currentRun = await this.currentGame()
-	//   console.log('currentRun beforeMount chooseHandicaps', currentRun)
-
-	//   this.currentContestant =
-	//     this.allContestants.find((c: Contestant) => c._id === currentRun.contestantId) || new Contestant()
-	//   this.rank = currentRun.rank
-	//   this.handicaps = [...this.allHandicaps]
-
-	//   this.handicaps.forEach((item: { selected: any; text: string }) => {
-	//     item.selected = currentRun.handicaps.find((h: Handicap) => h.text === item.text)
-	//   })
-	// },
 	methods: {
 		...mapActions({
 			updateContestant: 'contestants/update',
@@ -206,10 +158,6 @@ h2 {
 	grid-template-columns: 1fr 1fr;
 }
 
-.split-view .boons-grid {
-	margin: 10px 0;
-}
-
 .split-view .handicaps-list {
 	user-select: none;
 }
@@ -242,26 +190,9 @@ h2 {
 	aspect-ratio: 1/1;
 }
 
-.split-view .boons-cart {
-	width: 100%;
-	padding: 0 20%;
-}
-
-.split-view .boons-cart div {
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: space-between;
-}
-
 .split-view .current-wager img {
 	height: 75px;
 	object-fit: contain;
-}
-
-.split-view .boons-cart div img {
-	height: 15px;
-	width: 15px;
 }
 
 .split-view .handicaps-list .handicap-item img {

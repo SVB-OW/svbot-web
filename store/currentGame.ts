@@ -35,7 +35,6 @@ export const actions: ActionTree<ContestantState, any> = {
 		const game = await fetch(apiEndpoint).then(res => res.json())
 		commit('update', game)
 		this.dispatch('handicaps/load', game)
-		this.dispatch('boons/load', game)
 		this.dispatch('bounties/load', game)
 	},
 	async update({ state, rootGetters }, payload: Partial<Game>) {
@@ -49,7 +48,6 @@ export const actions: ActionTree<ContestantState, any> = {
 			amountHandicaps += h.points * currentRankMultiplier
 		})
 
-		// TODO: subtract boons
 		payload.wager = Math.floor(amountHandicaps)
 
 		this.$emitWS(payload)
