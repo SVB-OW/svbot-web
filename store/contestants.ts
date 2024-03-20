@@ -1,76 +1,59 @@
-import type { ActionTree, GetterTree, MutationTree } from 'vuex'
+import { defineStore } from 'pinia'
 import { Contestant } from '~/types'
 const apiEndpoint = process.env.API_URI + '/api/contestants'
 
-export const state = () => ({
-	list: <Contestant[]>[],
+export type ContestantsState = {
+	list: Contestant[]
+}
+
+export const useContestantsStore = defineStore('contestants', {
+	state: (): ContestantsState => ({
+		list: [],
+	}),
+	getters: {
+		read: state => state.list.map(item => new Contestant(item)),
+	},
+	actions: {
+		async load() {
+			const res = await (await fetch(apiEndpoint)).json()
+			this.list = res
+		},
+		async create(payload: any) {
+			const res = await fetch(apiEndpoint, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(new Contestant(payload)),
+			}).then(response => response.json())
+
+			payload._id = res.insertedId
+			this.list.push(new Contestant(payload))
+			return res.insertedId
+		},
+		async update(payload: any) {
+			const res = await fetch(apiEndpoint, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(new Contestant(payload)),
+			}).then(response => response.json())
+
+			const foundIndex = this.list.findIndex((e: Contestant) => e._id === payload._id)
+			if (foundIndex >= 0) this.list.splice(foundIndex, 1, new Contestant(payload))
+			return res
+		},
+		async delete(payload: string) {
+			await fetch(apiEndpoint, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: payload,
+			})
+			const foundIndex = this.list.findIndex((e: Contestant) => e._id === payload)
+			if (foundIndex >= 0) this.list.splice(foundIndex, 1)
+		},
+	},
 })
-
-export type ContestantState = ReturnType<typeof state>
-
-export const getters: GetterTree<ContestantState, any> = {
-	read(state) {
-		return state.list.map(item => new Contestant(item))
-	},
-}
-
-export const mutations: MutationTree<ContestantState> = {
-	load(state, payload: Array<Contestant>) {
-		state.list = payload
-	},
-	create(state, payload: Contestant) {
-		state.list.push(payload)
-	},
-	update(state, payload: Contestant) {
-		const foundIndex = state.list.findIndex((e: Contestant) => e._id === payload._id)
-		if (foundIndex >= 0) state.list.splice(foundIndex, 1, payload)
-	},
-	delete(state, payload: string) {
-		const foundIndex = state.list.findIndex((e: Contestant) => e._id === payload)
-		if (foundIndex >= 0) state.list.splice(foundIndex, 1)
-	},
-}
-
-export const actions: ActionTree<ContestantState, any> = {
-	async load({ commit }) {
-		const res = await (await fetch(apiEndpoint)).json()
-
-		commit('load', res)
-		return res
-	},
-	async create({ commit }, payload: any) {
-		const res = await fetch(apiEndpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(new Contestant(payload)),
-		}).then(response => response.json())
-
-		payload._id = res.insertedId
-		commit('create', new Contestant(payload))
-		return res.insertedId
-	},
-	async update({ commit }, payload: any) {
-		const res = await fetch(apiEndpoint, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(new Contestant(payload)),
-		}).then(response => response.json())
-
-		commit('update', new Contestant(payload))
-		return res
-	},
-	async delete({ commit }, payload: string) {
-		await fetch(apiEndpoint, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: payload,
-		})
-		commit('delete', payload)
-	},
-}

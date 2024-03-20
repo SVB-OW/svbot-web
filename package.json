@@ -18,12 +18,14 @@
 		"lintfix": "prettier --write --list-different . && yarn lint:js --fix"
 	},
 	"dependencies": {
+		"@pinia/nuxt": "^0.5.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"express": "^4.17.1",
 		"express-ws": "^5.0.2",
 		"mongodb": "^6.5.0",
 		"nuxt": "^3.11.1",
+		"pinia": "^2.1.7",
 		"socket.io": "^4.6.1",
 		"socket.io-client": "^4.3.2",
 		"vue": "^3.4.21",

@@ -1,4 +1,4 @@
-export default {
+export default defineNuxtConfig({
 	head: {
 		title: 'svbot-web',
 		htmlAttrs: {
@@ -26,6 +26,7 @@ export default {
 	ssr: false,
 	target: 'server',
 	components: true,
+	modules: ['@pinia/nuxt'],
 	buildModules: ['@nuxt/typescript-build'],
 	plugins: ['@/plugins/ws.ts'],
-}
+})
