@@ -13,20 +13,12 @@
 
 		<div class="split-view">
 			<table>
-				<thead>
-					<tr>
-						<th>Rank</th>
-						<th>Contestant</th>
-						<th>Score</th>
-					</tr>
-				</thead>
 				<tbody>
 					<tr
 						v-for="(contestant, i) in sortedContestants.slice((startLeaderboardAt - 1) * 10, startLeaderboardAt * 10)"
 						:key="i"
 						@click="continueRun(contestant)"
 					>
-						<td>{{ (startLeaderboardAt - 1) * 10 + 1 + i }}</td>
 						<td>{{ contestant.name }}</td>
 						<td>{{ contestant.personalBest }}</td>
 					</tr>
@@ -124,7 +116,7 @@ table {
 table,
 table th,
 table td {
-	border: 1px solid var(--main-color);
+	border: none;
 	border-collapse: collapse;
 	padding: 0.5rem 1rem;
 	width: fit-content;
