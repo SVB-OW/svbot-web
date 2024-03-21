@@ -5,13 +5,14 @@ import { useContestantsStore } from './contestants'
 import { useBountiesStore } from './bounties'
 import { useHandicapsStore } from './handicaps'
 import { useRanksStore } from './ranks'
+import { useNuxtApp } from 'nuxt/app'
 const apiEndpoint = process.env.API_URI + '/api/currentGame'
 
 export type CurrentGameState = {
 	currentGame: Game
 }
 
-export const useAuthUserStore = defineStore('currentGame', {
+export const useCurrentGameStore = defineStore('currentGame', {
 	state: (): CurrentGameState => ({
 		currentGame: new Game(),
 	}),
@@ -47,7 +48,8 @@ export const useAuthUserStore = defineStore('currentGame', {
 
 			payload.wager = Math.floor(amountHandicaps + amountBounties)
 
-			// this.$emitWS(payload)
+			const { $emitWS } = useNuxtApp()
+			$emitWS(payload)
 
 			return await fetch(apiEndpoint, {
 				method: 'POST',
