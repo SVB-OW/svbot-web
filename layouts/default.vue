@@ -1,35 +1,22 @@
 <template>
 	<div>
 		<nav>
-			<router-link to="/">Leaderboard</router-link>
-			<router-link to="/chooseRank">Choose Rank</router-link>
-			<router-link to="/chooseHandicaps">Choose Handicaps</router-link>
+			<NuxtLink to="/">Leaderboard</NuxtLink>
+			<NuxtLink to="/chooseRank">Choose Rank</NuxtLink>
+			<NuxtLink to="/chooseHandicaps">Choose Handicaps</NuxtLink>
 			<a href="/template.htm">Original Template</a>
 			<a href="/template">Stream Overlay</a>
 		</nav>
 
-		<Nuxt />
+		<slot />
 	</div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { mapActions } from 'vuex'
-
-export default Vue.extend({
-	async fetch(): Promise<void> {
-		await this.loadContestants()
-		await this.loadCurrentGame()
-	},
-	mounted() {
-		this.$startWS()
-	},
-	methods: {
-		...mapActions({
-			loadContestants: 'contestants/load',
-			loadCurrentGame: 'currentGame/load',
-		}),
-	},
+<script setup lang="ts">
+onMounted(async () => {
+	await useContestantsStore().load()
+	await useCurrentGameStore().load()
+	useNuxtApp().$startWS()
 })
 </script>
 
@@ -107,3 +94,4 @@ a {
 	padding: 0.5rem;
 }
 </style>
+~/stores/contestants~/stores/currentGame

@@ -7,7 +7,7 @@
 			<img
 				v-for="(handicap, i) in currentGame.handicaps"
 				:key="i"
-				:src="`handicaps/orange/${handicap.img}`"
+				:src="`/handicaps/orange/${handicap.img}`"
 				class="handicap"
 			/>
 		</div>
@@ -15,19 +15,21 @@
 			{{ currentGame.contestantName }}
 			<img class="bounty" :src="`bounties/on/${currentGame.bounty.img}`" />
 		</div>
-		<div class="team1-icon"><img :src="`ranks/orange/${currentGame.rank}.png`" /></div>
+		<div class="team1-icon"><img :src="`/ranks/orange/${currentGame.rank}.png`" /></div>
 
-		<div class="header-center text-box">Wager: {{ currentGame.wager }} <img src="points.png" class="wager-icon" /></div>
+		<div class="header-center text-box">
+			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
+		</div>
 
 		<div class="team2-name text-box">
 			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
 			Team
 		</div>
-		<div class="team2-icon"><img :src="`ranks/orange/${currentGame.rank2}.png`" /></div>
+		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
 
 		<div class="footer-left text-box">
-			{{ currentGame.contestantName }}: {{ currentContestant.personalBest }}
-			<img src="points.png" class="wager-icon" />
+			{{ currentGame.contestantName }}: {{ contestant.personalBest }}
+			<img src="/points.png" class="wager-icon" />
 		</div>
 		<div class="footer-right text-box">
 			<img src="/svb-side.png" alt="SVB Side" />
@@ -35,45 +37,18 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import Vue from 'vue'
-
-export default Vue.extend({
+<script setup lang="ts">
+definePageMeta({
 	layout: 'empty',
-	data: () => ({}),
-	async fetch(): Promise<void> {
-		await this.loadContestants()
-		await this.loadCurrentGame()
-	},
-	computed: {
-		...mapGetters({
-			allRanks: 'ranks/read',
-			currentGame: 'currentGame/read',
-			currentContestant: 'currentGame/contestant',
-		}),
-	},
-	mounted() {
-		this.$startWS()
-	},
-	methods: {
-		...mapActions({
-			loadContestants: 'contestants/load',
-			loadCurrentGame: 'currentGame/load',
-		}),
-		gamesPlayed(): number {
-			let count = 0
-			if (this.currentContestant.bronzePoints > 0) count++
-			if (this.currentContestant.silverPoints > 0) count++
-			if (this.currentContestant.goldPoints > 0) count++
-			if (this.currentContestant.platinumPoints > 0) count++
-			if (this.currentContestant.diamondPoints > 0) count++
-			if (this.currentContestant.masterPoints > 0) count++
-			if (this.currentContestant.grandmasterPoints > 0) count++
+})
 
-			return count
-		},
-	},
+const { load: loadContestants } = useContestantsStore()
+const { currentGame, contestant, load: loadCurrentGame } = useCurrentGameStore()
+
+onMounted(async () => {
+	await loadContestants()
+	await loadCurrentGame()
+	useNuxtApp().$startWS()
 })
 </script>
 
@@ -216,3 +191,4 @@ body {
 	height: 75%;
 }
 </style>
+~/stores/contestants~/stores/currentGame

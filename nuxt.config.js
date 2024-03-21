@@ -29,5 +29,4 @@ export default defineNuxtConfig({
 	target: 'server',
 	modules: ['@pinia/nuxt'],
 	buildModules: ['@nuxt/typescript-build'],
-	// plugins: ['@/plugins/ws.ts'],
 })

@@ -17,7 +17,4 @@ export const useRanksStore = defineStore('ranks', {
 			{ name: 'grandmaster', multiplier: 2.2 },
 		],
 	}),
-	getters: {
-		read: state => state.list,
-	},
 })

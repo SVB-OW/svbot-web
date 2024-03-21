@@ -2,7 +2,7 @@
 	<main>
 		<header>
 			<h1>Leaderboard</h1>
-			<img src="gauntlet.50lr.webp" alt="Gauntlet" />
+			<img src="/gauntlet.50lr.webp" alt="Gauntlet" />
 		</header>
 
 		<input id="contestant" type="text" placeholder="New contestant" required autocomplete="off" />
@@ -15,7 +15,7 @@
 			<table>
 				<tbody>
 					<tr
-						v-for="(contestant, i) in sortedContestants.slice((startLeaderboardAt - 1) * 10, startLeaderboardAt * 10)"
+						v-for="(contestant, i) in sortedContestants().slice((startLeaderboardAt - 1) * 10, startLeaderboardAt * 10)"
 						:key="i"
 						@click="continueRun(contestant)"
 					>
@@ -27,9 +27,9 @@
 
 			<br />
 
-			<div v-if="sortedContestants.length > 10">
+			<div v-if="sortedContestants().length > 10">
 				<button
-					v-for="i in Math.ceil(sortedContestants.length / 10)"
+					v-for="i in ceil(sortedContestants().length / 10)"
 					:key="i"
 					class="page"
 					@click="startLeaderboardAt = i"
@@ -41,66 +41,46 @@
 	</main>
 </template>
 
-<script lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import Vue from 'vue'
+<script setup lang="ts">
 import { Contestant } from '@/types'
 
-export default Vue.extend({
-	data: () => ({
-		Math,
-		startLeaderboardAt: 1,
-	}),
-	computed: {
-		...mapGetters({
-			allContestants: 'contestants/read',
-		}),
-		sortedContestants(): Contestant[] {
-			return [...this.allContestants].sort((c1: Contestant, c2: Contestant) =>
-				c1.personalBest > c2.personalBest ? -1 : 1,
-			)
-		},
-	},
-	methods: {
-		...mapActions({
-			createContestant: 'contestants/create',
-			updateCurrentGame: 'currentGame/update',
-		}),
-		async start(): Promise<void> {
-			const input = document.querySelector('#contestant') as HTMLInputElement
-			if (input.reportValidity()) {
-				const findContestant = this.allContestants.find((c: Contestant) => c.name === input.value)
-				if (findContestant) {
-					this.continueRun(findContestant)
-					return
-				}
+const { ceil } = Math
+const startLeaderboardAt = ref(1)
+const { list: allContestants, create: createContestant } = useContestantsStore()
+const { currentGame } = useCurrentGameStore()
 
-				const obj = new Contestant({
-					name: input.value,
-				})
+function sortedContestants(): Contestant[] {
+	return [...allContestants].sort((c1: Contestant, c2: Contestant) => (c1.personalBest > c2.personalBest ? -1 : 1))
+}
 
-				const res = await this.createContestant(obj)
-				obj._id = res
+async function start(): Promise<void> {
+	const input = document.querySelector('#contestant') as HTMLInputElement
+	if (input.reportValidity()) {
+		const findContestant = allContestants.find((c: Contestant) => c.name === input.value)
+		if (findContestant) {
+			continueRun(findContestant)
+			return
+		}
 
-				input.value = ''
-				this.updateCurrentGame({
-					contestantId: obj._id,
-					contestantName: obj.name,
-				}).then(() => {
-					this.$router.push('/chooseRank')
-				})
-			}
-		},
-		continueRun(c: Contestant): void {
-			this.updateCurrentGame({
-				contestantId: c._id,
-				contestantName: c.name,
-			}).then(() => {
-				this.$router.push('/chooseRank')
-			})
-		},
-	},
-})
+		const obj = new Contestant({
+			name: input.value,
+		})
+
+		const res = await createContestant(obj)
+		obj._id = res
+
+		input.value = ''
+		currentGame.contestantId = obj._id || ''
+		currentGame.contestantName = obj.name
+		navigateTo('/chooseRank')
+	}
+}
+
+function continueRun(c: Contestant): void {
+	currentGame.contestantId = c._id || ''
+	currentGame.contestantName = c.name
+	navigateTo('/chooseRank')
+}
 </script>
 
 <style scoped>
@@ -126,3 +106,4 @@ table th:nth-child(2) {
 	width: 150px;
 }
 </style>
+~/stores/contestants~/stores/currentGame
