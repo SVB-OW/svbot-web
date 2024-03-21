@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { Contestant } from '~/types'
-const apiEndpoint = process.env.API_URI + '/api/contestants'
 
 export type ContestantsState = {
 	list: Contestant[]
@@ -15,10 +14,12 @@ export const useContestantsStore = defineStore('contestants', {
 	},
 	actions: {
 		async load() {
+			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			const res = await (await fetch(apiEndpoint)).json()
 			this.list = res
 		},
 		async create(payload: any) {
+			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'POST',
 				headers: {
@@ -32,6 +33,7 @@ export const useContestantsStore = defineStore('contestants', {
 			return res.insertedId
 		},
 		async update(payload: any) {
+			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'PUT',
 				headers: {
@@ -45,6 +47,7 @@ export const useContestantsStore = defineStore('contestants', {
 			return res
 		},
 		async delete(payload: string) {
+			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			await fetch(apiEndpoint, {
 				method: 'DELETE',
 				headers: {

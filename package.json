@@ -4,7 +4,7 @@
 	"license": "GPL-3.0-or-later",
 	"scripts": {
 		"dev": "npx concurrently \"npm run dev:client\" \"npm run dev:server\"",
-		"dev:client": "nuxt",
+		"dev:client": "nuxt dev",
 		"dev:server": "npx nodemon api.js",
 		"build": "nuxt build",
 		"start": "npx concurrently \"nuxt start\" \"node api.js\"",

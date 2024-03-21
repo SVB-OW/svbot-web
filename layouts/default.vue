@@ -15,7 +15,7 @@
 <script setup lang="ts">
 onMounted(async () => {
 	await useContestantsStore().load()
-	await useCurrentGameStore().load()
+	useCurrentGameStore().load()
 	useNuxtApp().$startWS()
 })
 </script>

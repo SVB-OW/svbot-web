@@ -46,14 +46,15 @@ import { Contestant } from '@/types'
 
 const { ceil } = Math
 const startLeaderboardAt = ref(1)
-const { list: allContestants, create: createContestant } = useContestantsStore()
-const { currentGame } = useCurrentGameStore()
 
 function sortedContestants(): Contestant[] {
+	const { list: allContestants } = useContestantsStore()
 	return [...allContestants].sort((c1: Contestant, c2: Contestant) => (c1.personalBest > c2.personalBest ? -1 : 1))
 }
 
 async function start(): Promise<void> {
+	const { currentGame } = useCurrentGameStore()
+	const { list: allContestants, create: createContestant } = useContestantsStore()
 	const input = document.querySelector('#contestant') as HTMLInputElement
 	if (input.reportValidity()) {
 		const findContestant = allContestants.find((c: Contestant) => c.name === input.value)
@@ -77,6 +78,7 @@ async function start(): Promise<void> {
 }
 
 function continueRun(c: Contestant): void {
+	const { currentGame } = useCurrentGameStore()
 	currentGame.contestantId = c._id || ''
 	currentGame.contestantName = c.name
 	navigateTo('/chooseRank')

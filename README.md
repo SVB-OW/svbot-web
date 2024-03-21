@@ -15,7 +15,7 @@ Vue in Nuxt with TypeScript, MongoDB and Socket.io
 ## Future Tasks
 
 - [x] Allow stacking of handicaps / bounties
-- [ ] Upgrade to Nuxt 3 / Vue 3
+- [x] Upgrade to Nuxt 3 / Vue 3
 - [ ] Allow DB to be changed via ENV
 - [ ] Use single port for both server and client
 - [ ] Serve 1 route that updates the view for everyone

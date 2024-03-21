@@ -16,17 +16,16 @@ export default defineNuxtConfig({
 			],
 		},
 	},
-	env: {
-		MONGO_URI: process.env.MONGO_URI,
-		HOME_URI: process.env.HOME_URI,
-		API_URI: process.env.API_URI,
+	runtimeConfig: {
+		public: {
+			HOME_URI: process.env.HOME_URI || 'http://localhost:4001',
+			API_URI: process.env.API_URL || 'http://localhost:4002',
+		},
 	},
-	server: {
-		host: '0.0.0.0',
-		port: process.env.HOME_PORT,
+	devServer: {
+		port: process.env.HOME_PORT || 4001,
 	},
 	ssr: false,
-	target: 'server',
 	modules: ['@pinia/nuxt'],
 	buildModules: ['@nuxt/typescript-build'],
 })

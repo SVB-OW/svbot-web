@@ -7,7 +7,7 @@ export default defineNuxtPlugin(() => {
 	return {
 		provide: {
 			startWS: () => {
-				const socket = io(process.env.API_URI as string, {
+				const socket = io(useRuntimeConfig().public.API_URI, {
 					transports: ['websocket', 'polling'], // use WebSocket first, if available
 				})
 
