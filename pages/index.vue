@@ -53,7 +53,7 @@ function sortedContestants(): Contestant[] {
 }
 
 async function start(): Promise<void> {
-	const { currentGame } = useCurrentGameStore()
+	const { currentGame, update } = useCurrentGameStore()
 	const { list: allContestants, create: createContestant } = useContestantsStore()
 	const input = document.querySelector('#contestant') as HTMLInputElement
 	if (input.reportValidity()) {
@@ -71,16 +71,14 @@ async function start(): Promise<void> {
 		obj._id = res
 
 		input.value = ''
-		currentGame.contestantId = obj._id || ''
-		currentGame.contestantName = obj.name
+		update({ contestantId: obj._id, contestantName: obj.name })
 		navigateTo('/chooseRank')
 	}
 }
 
 function continueRun(c: Contestant): void {
-	const { currentGame } = useCurrentGameStore()
-	currentGame.contestantId = c._id || ''
-	currentGame.contestantName = c.name
+	const { update } = useCurrentGameStore()
+	update({ contestantId: c._id, contestantName: c.name })
 	navigateTo('/chooseRank')
 }
 </script>

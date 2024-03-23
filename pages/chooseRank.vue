@@ -55,13 +55,12 @@ const { list: allRanks } = useRanksStore()
 const { currentGame, contestant: currentContestant, update: updateCurrentGame } = useCurrentGameStore()
 
 function selectRank(rank: Rank): void {
-	currentGame.rank = rank
-	currentGame.rank2 = currentGame.rank2 === Rank.bronze ? rank : currentGame.rank2
+	updateCurrentGame({ rank, rank2: currentGame.rank2 === Rank.bronze ? rank : currentGame.rank2 })
 	navigateTo('/chooseHandicaps')
 }
 
 function selectRank2(rank2: Rank): void {
-	currentGame.rank2 = rank2
+	updateCurrentGame({ rank2 })
 }
 </script>
 

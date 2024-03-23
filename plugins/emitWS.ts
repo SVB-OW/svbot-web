@@ -6,6 +6,7 @@ export default defineNuxtPlugin(() => {
 	return {
 		provide: {
 			emitWS: (game: Partial<Game>) => {
+				console.log('emit ws from plugin', game)
 				const socket = io(useRuntimeConfig().public.API_URI)
 				socket.emit('game updated', game)
 			},
