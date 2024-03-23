@@ -7,7 +7,7 @@
 		"dev:client": "nuxt dev",
 		"dev:server": "npx nodemon api.js",
 		"build": "nuxt build",
-		"start": "npx concurrently \"nuxt start\" \"node api.js\"",
+		"start": "npx concurrently \"node ./.output/server/index.mjs\" \"node api.js\"",
 		"generate": "nuxt generate",
 		"lint-fix": "eslint . --fix",
 		"format": "prettier --check \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
@@ -32,7 +32,6 @@
 		"vue-router": "^4.3.0"
 	},
 	"devDependencies": {
-		"@types/mongodb": "^4.0.7",
 		"prettier": "^3.2.5"
 	}
 }

@@ -60,8 +60,12 @@ export const useCurrentGameStore = defineStore('currentGame', {
 				body: JSON.stringify(payload),
 			})
 		},
+		// This is only used when receiving an update via WebSocket, so it doesn't reemit the update
 		async writeStore(payload: Partial<Game>) {
-			this.currentGame = Object.assign({}, this.currentGame, payload)
+			console.log('writeStore', this.currentGame, payload, Object.assign({}, this.currentGame, payload))
+			// this.currentGame = Object.assign({}, this.currentGame, payload)
+			Object.assign(this.currentGame, payload)
+			console.log('written', this.currentGame)
 		},
 	},
 })

@@ -18,7 +18,7 @@ export const useContestantsStore = defineStore('contestants', {
 			const res = await (await fetch(apiEndpoint)).json()
 			this.list = res
 		},
-		async create(payload: any) {
+		async create(payload: Partial<Contestant>) {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'POST',
@@ -32,7 +32,7 @@ export const useContestantsStore = defineStore('contestants', {
 			this.list.push(new Contestant(payload))
 			return res.insertedId
 		},
-		async update(payload: any) {
+		async update(payload: Contestant) {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'PUT',

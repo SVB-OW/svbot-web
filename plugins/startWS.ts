@@ -7,12 +7,14 @@ export default defineNuxtPlugin(() => {
 	return {
 		provide: {
 			startWS: () => {
+				console.log('start ws from plugin')
 				const socket = io(useRuntimeConfig().public.API_URI, {
 					transports: ['websocket', 'polling'], // use WebSocket first, if available
 				})
 
 				socket.on('game updated', (game: Partial<Game>) => {
-					useCurrentGameStore().update(game)
+					console.log('received update', game)
+					useCurrentGameStore().writeStore(game)
 				})
 			},
 		},
