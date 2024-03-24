@@ -13,7 +13,7 @@ let db
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 	}).connect()
-	db = client.db('svbot')
+	db = client.db(process.env.DB_NAME || 'svbot')
 })()
 
 const app = express()
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 const cache = {
 	contestantId: '',
 	contestantName: '',
+	teamName: '',
 	rank: 'bronze',
 	rank2: 'bronze',
 	handicaps: [

@@ -5,7 +5,8 @@
 			<img src="gauntlet.50lr.webp" alt="Gauntlet" />
 		</header>
 
-		<input id="contestant" type="text" placeholder="New contestant" required autocomplete="off" />
+		<input id="contestant-name" type="text" placeholder="New contestant" required autocomplete="off" />
+		<input id="team-name" type="text" placeholder="Team Name" required autocomplete="off" />
 
 		<button @click="start()">Start</button>
 
@@ -67,25 +68,29 @@ export default Vue.extend({
 			updateCurrentGame: 'currentGame/update',
 		}),
 		async start(): Promise<void> {
-			const input = document.querySelector('#contestant') as HTMLInputElement
-			if (input.reportValidity()) {
-				const findContestant = this.allContestants.find((c: Contestant) => c.name === input.value)
+			const contestantName = document.querySelector('#contestant-name') as HTMLInputElement
+			const teamName = document.querySelector('#team-name') as HTMLInputElement
+			if (contestantName.reportValidity() && teamName.reportValidity()) {
+				const findContestant = this.allContestants.find((c: Contestant) => c.name === contestantName.value)
 				if (findContestant) {
 					this.continueRun(findContestant)
 					return
 				}
 
 				const obj = new Contestant({
-					name: input.value,
+					name: contestantName.value,
+					teamName: teamName.value,
 				})
 
 				const res = await this.createContestant(obj)
 				obj._id = res
 
-				input.value = ''
+				contestantName.value = ''
+				teamName.value = ''
 				this.updateCurrentGame({
 					contestantId: obj._id,
 					contestantName: obj.name,
+					teamName: obj.teamName,
 				}).then(() => {
 					this.$router.push('/chooseRank')
 				})
@@ -95,6 +100,7 @@ export default Vue.extend({
 			this.updateCurrentGame({
 				contestantId: c._id,
 				contestantName: c.name,
+				teamName: c.teamName,
 			}).then(() => {
 				this.$router.push('/chooseRank')
 			})

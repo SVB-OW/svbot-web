@@ -15,7 +15,10 @@ Vue in Nuxt with TypeScript, MongoDB and Socket.io
 ## Future Tasks
 
 - [x] Allow stacking of handicaps / bounties
+- [x] Contestant teams
 - [ ] Upgrade to Nuxt 3 / Vue 3
-- [ ] Allow DB to be changed via ENV
+- [x] Allow DB to be changed via ENV
 - [ ] Use single port for both server and client
+- [ ] Update leaderboard design for teams
+- [ ] Improve selection screen designs
 - [ ] Serve 1 route that updates the view for everyone
