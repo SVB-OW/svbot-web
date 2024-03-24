@@ -25,6 +25,7 @@ declare module '@nuxt/types' {
 
 declare module 'vuex/types/index' {
 	// this.$getName inside Vuex stores
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface Store<S> {
 		$startWS(): void
 		$emitWS(game: Partial<Game>): void
