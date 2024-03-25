@@ -14,8 +14,7 @@
 		"format-fix": "prettier --write \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
 		"lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
 		"lint:style": "stylelint \"**/*.{css,scss,sass,html,vue}\" --ignore-path .gitignore",
-		"lint:prettier": "prettier --check .",
-		"lint": "yarn lint:js && yarn lint:style && yarn lint:prettier",
+		"lint": "yarn lint:js && yarn lint:style && yarn format",
 		"lintfix": "prettier --write --list-different . && yarn lint:js --fix && yarn lint:style --fix"
 	},
 	"dependencies": {
