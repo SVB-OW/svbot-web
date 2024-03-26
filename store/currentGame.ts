@@ -19,6 +19,12 @@ export const getters: GetterTree<ContestantState, any> = {
 			new Contestant()
 		)
 	},
+	teamPoints(state, _getters, _rootState, rootGetters) {
+		return rootGetters['contestants/read'].reduce((acc: number, item: Contestant) => {
+			if (state.currentGame.teamName === item.teamName) acc += item.personalBest
+			return acc
+		}, 0)
+	},
 }
 
 export const mutations: MutationTree<ContestantState> = {

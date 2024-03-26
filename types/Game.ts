@@ -4,6 +4,7 @@ import { Bounty, Rank } from '.'
 export class Game {
 	contestantId = ''
 	contestantName = ''
+	teamName = ''
 	rank = Rank.bronze
 	rank2 = Rank.bronze
 	wager = 0

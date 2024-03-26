@@ -26,7 +26,7 @@
 		<div class="team2-icon"><img :src="`ranks/orange/${currentGame.rank2}.png`" /></div>
 
 		<div class="footer-left text-box">
-			{{ currentGame.contestantName }}: {{ currentContestant.personalBest }}
+			{{ currentGame.teamName }}: {{ teamPoints }}
 			<img src="points.png" class="wager-icon" />
 		</div>
 		<div class="footer-right text-box">
@@ -51,6 +51,7 @@ export default Vue.extend({
 			allRanks: 'ranks/read',
 			currentGame: 'currentGame/read',
 			currentContestant: 'currentGame/contestant',
+			teamPoints: 'currentGame/teamPoints',
 		}),
 	},
 	mounted() {

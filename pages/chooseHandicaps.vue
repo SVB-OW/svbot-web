@@ -59,15 +59,15 @@
 				</div>
 
 				<div class="bounties">
-					<div v-for="(item, i) in allBounties" :key="i" @click="selectBounty(item)" :title="item.text">
+					<div v-for="(item, i) in allBounties" :key="i" :title="item.text" @click="selectBounty(item)">
 						<img :src="'bounties/' + (item.text === currentGame.bounty.text ? 'on/' : 'off/') + item.img" alt="" />
 						<input
 							v-if="item.text === currentGame.bounty.text"
 							:value="currentGame.bounty.stack"
-							@input="updateBounty"
-							@click.stop
 							type="number"
 							min="0"
+							@input="updateBounty"
+							@click.stop
 						/>
 					</div>
 				</div>
