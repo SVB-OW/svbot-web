@@ -135,9 +135,11 @@ app.post('/api/currentGame', (req, res) => {
 // WS
 io.on('connection', socket => {
 	socket.on('game updated', game => {
+		console.log('received game updated', game)
 		socket.emit('game updated', game)
 	})
 	socket.on('contestants updated', list => {
+		console.log('received contestants updated', list)
 		socket.emit('contestants updated', list)
 	})
 })

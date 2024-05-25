@@ -33,4 +33,8 @@ a {
 	margin: 1rem 0;
 	display: block;
 }
+
+.icon {
+	border: 1px solid black;
+}
 </style>

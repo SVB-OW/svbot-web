@@ -32,3 +32,6 @@ sw.*
 
 # macOS
 .DS_Store
+
+# caddy
+caddy

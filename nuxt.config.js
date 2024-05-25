@@ -20,6 +20,7 @@ export default {
 		API_URI: process.env.API_URI,
 	},
 	server: {
+		host: '0.0.0.0',
 		port: process.env.HOME_PORT,
 	},
 	ssr: false,
