@@ -28,8 +28,8 @@ export const useCurrentGameStore = defineStore('currentGame', {
 		},
 		async load() {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
-			const { data: game } = await useFetch(apiEndpoint)
-			this.currentGame = Object.assign({}, this.currentGame, game.value)
+			const game: Game = await $fetch(apiEndpoint)
+			this.currentGame = Object.assign({}, this.currentGame, game)
 			useHandicapsStore().load(this.currentGame)
 			useBountiesStore().load(this.currentGame)
 		},
@@ -44,7 +44,7 @@ export const useCurrentGameStore = defineStore('currentGame', {
 				amountHandicaps += h.points * currentRankMultiplier * h.stack
 			})
 
-			const amountBounties = tempGame.bounty.points * tempGame.bounty.stack
+			const amountBounties = tempGame.bounty.points * tempGame.bounty.stack || 0
 
 			payload.wager = Math.floor(amountHandicaps + amountBounties)
 
@@ -62,10 +62,7 @@ export const useCurrentGameStore = defineStore('currentGame', {
 		},
 		// This is only used when receiving an update via WebSocket, so it doesn't reemit the update
 		async writeStore(payload: Partial<Game>) {
-			console.log('writeStore', this.currentGame, payload, Object.assign({}, this.currentGame, payload))
-			// this.currentGame = Object.assign({}, this.currentGame, payload)
 			Object.assign(this.currentGame, payload)
-			console.log('written', this.currentGame)
 		},
 	},
 })

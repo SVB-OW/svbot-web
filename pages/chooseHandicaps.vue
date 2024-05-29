@@ -94,65 +94,66 @@
 import type { Bounty, Handicap } from '@/types'
 import { Game } from '@/types'
 
-const { list: allBounties } = useBountiesStore()
-const { list: allHandicaps } = useHandicapsStore()
-const { list: allRanks } = useRanksStore()
-const { currentGame, contestant: currentContestant, update: updateCurrentGame } = useCurrentGameStore()
+const { list: allBounties } = storeToRefs(useBountiesStore())
+const { list: allHandicaps } = storeToRefs(useHandicapsStore())
+const { list: allRanks } = storeToRefs(useRanksStore())
+const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGameStore())
+const { update: updateCurrentGame } = useCurrentGameStore()
 const { update: updateContestant } = useContestantsStore()
 
 function victory(): void {
-	currentContestant[currentGame.rank + 'Points'] = currentGame.wager
-	currentContestant.personalBest = Math.max(currentContestant.personalBest, currentGame.wager)
+	currentContestant.value[currentGame.value.rank + 'Points'] = currentGame.value.wager
+	currentContestant.value.personalBest = Math.max(currentContestant.value.personalBest, currentGame.value.wager)
 
-	updateContestant(currentContestant)
+	updateContestant(currentContestant.value)
 
 	navigateTo('/')
 	resetCurrentGame()
 }
 
 function rankMultiplier(): number {
-	return allRanks.find(r => r.name === currentGame.rank)?.multiplier || 1
+	return allRanks.value.find(r => r.name === currentGame.value.rank)?.multiplier || 1
 }
 
 function defeat(): void {
-	currentContestant.bronzePoints = 0
-	currentContestant.silverPoints = 0
-	currentContestant.goldPoints = 0
-	currentContestant.platinumPoints = 0
-	currentContestant.diamondPoints = 0
-	currentContestant.masterPoints = 0
-	currentContestant.grandmasterPoints = 0
+	currentContestant.value.bronzePoints = 0
+	currentContestant.value.silverPoints = 0
+	currentContestant.value.goldPoints = 0
+	currentContestant.value.platinumPoints = 0
+	currentContestant.value.diamondPoints = 0
+	currentContestant.value.masterPoints = 0
+	currentContestant.value.grandmasterPoints = 0
 
-	currentContestant[currentGame.rank + 'Points'] = currentGame.bounty.points * currentGame.bounty.stack
-	currentContestant.personalBest = Math.max(
-		currentContestant.personalBest,
-		currentGame.bounty.points * currentGame.bounty.stack,
+	currentContestant.value[currentGame.value.rank + 'Points'] =
+		currentGame.value.bounty.points * currentGame.value.bounty.stack
+	currentContestant.value.personalBest = Math.max(
+		currentContestant.value.personalBest,
+		currentGame.value.bounty.points * currentGame.value.bounty.stack,
 	)
 
-	updateContestant(currentContestant)
+	updateContestant(currentContestant.value)
 
 	navigateTo('/')
 	resetCurrentGame()
 }
 
 function toggleHandicap(handicap: Handicap): void {
-	console.log('toggle handicap', handicap.text, selectedHandicap(handicap))
 	if (selectedHandicap(handicap)) {
 		// Remove handicap text from currentGame
 		updateCurrentGame({
-			handicaps: (currentGame as Game).handicaps.filter(h => h.text !== handicap.text),
+			handicaps: currentGame.value.handicaps.filter(h => h.text !== handicap.text),
 		})
 	} else {
 		// Add handicap text to currentGame
 		handicap.stack = 1
 		updateCurrentGame({
-			handicaps: [...(currentGame as Game).handicaps, handicap],
+			handicaps: [...currentGame.value.handicaps, handicap],
 		})
 	}
 }
 
 function updateStack(handicap: Handicap, stack: number): void {
-	const newHandicaps = (currentGame as Game).handicaps.map(h => {
+	const newHandicaps = currentGame.value.handicaps.map(h => {
 		if (h.text === handicap.text) h.stack += stack
 		return h
 	})
@@ -165,12 +166,12 @@ function selectBounty(bounty: Bounty): void {
 }
 
 function selectedHandicap(handicap: Handicap): Handicap | undefined {
-	return currentGame.handicaps.find(h => h.text === handicap.text)
+	return currentGame.value.handicaps.find(h => h.text === handicap.text)
 }
 
 function updateBounty(event: Event): void {
 	const stack = parseInt((event.target as HTMLInputElement).value)
-	updateCurrentGame({ ...currentGame, bounty: { ...currentGame.bounty, stack } })
+	updateCurrentGame({ ...currentGame.value, bounty: { ...currentGame.value.bounty, stack } })
 }
 
 function resetCurrentGame(): void {

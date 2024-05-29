@@ -34,6 +34,19 @@
 		<div class="footer-right text-box">
 			<img src="/svb-side.png" alt="SVB Side" />
 		</div>
+
+		<pre
+			style="
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 600px;
+				background-color: lightblue;
+				color: black;
+			"
+			>{{ currentGame }}</pre
+		>
 	</div>
 </template>
 
@@ -43,7 +56,8 @@ definePageMeta({
 })
 
 const { load: loadContestants } = useContestantsStore()
-const { currentGame, contestant, load: loadCurrentGame } = useCurrentGameStore()
+const { load: loadCurrentGame } = useCurrentGameStore()
+const { currentGame, contestant } = storeToRefs(useCurrentGameStore())
 
 onMounted(async () => {
 	await loadContestants()

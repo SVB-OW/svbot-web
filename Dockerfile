@@ -1,15 +1,15 @@
-FROM node:16 as base
+FROM node:22 as base
 
 LABEL description="SVBot-Web"
-LABEL version="1.2"
+LABEL version="1.3"
 
 ENV MONGO_URI ${MONGO_URI}
 ENV PROD_ERROR_EMAIL ${PROD_ERROR_EMAIL}
 
 WORKDIR /home/node/app
 
-COPY package*.json ./
-COPY pnpm.lock ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile --network-timeout 600000

@@ -51,11 +51,12 @@
 <script setup lang="ts">
 import { Rank } from '~/types'
 
-const { list: allRanks } = useRanksStore()
-const { currentGame, contestant: currentContestant, update: updateCurrentGame } = useCurrentGameStore()
+const { update: updateCurrentGame } = useCurrentGameStore()
+const { list: allRanks } = storeToRefs(useRanksStore())
+const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGameStore())
 
 function selectRank(rank: Rank): void {
-	updateCurrentGame({ rank, rank2: currentGame.rank2 === Rank.bronze ? rank : currentGame.rank2 })
+	updateCurrentGame({ rank, rank2: currentGame.value.rank2 === Rank.bronze ? rank : currentGame.value.rank2 })
 	navigateTo('/chooseHandicaps')
 }
 

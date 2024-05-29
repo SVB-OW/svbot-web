@@ -4,8 +4,8 @@
 
 ### Prerequisites
 
-- Node.js 16.19.0
-- pnpm 1.22.19
+- Node.js 22.2.0
+- pnpm 9.1.3
 
 ### Setup
 
@@ -18,6 +18,7 @@ HOME_URI=http://localhost:4001
 API_URI=http://localhost:4002
 HOME_PORT=4001
 API_PORT=4002
+DB_NAME=svbot-test
 ```
 
 ### Running

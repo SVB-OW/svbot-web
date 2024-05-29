@@ -1,7 +1,9 @@
 {
 	"name": "svbot-web",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"license": "GPL-3.0-or-later",
+	"type": "module",
+	"packageManager": "pnpm@9.1.3+sha512.7c2ea089e1a6af306409c4fc8c4f0897bdac32b772016196c469d9428f1fe2d5a21daf8ad6512762654ac645b5d9136bb210ec9a00afa8dbc4677843ba362ecd",
 	"scripts": {
 		"dev": "npx concurrently \"npm run dev:client\" \"npm run dev:server\"",
 		"dev:client": "nuxt dev",
@@ -13,7 +15,8 @@
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --check \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
 		"format:fix": "prettier --write \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
-		"typecheck": "nuxi typecheck"
+		"typecheck": "nuxi typecheck",
+		"stylecheck": "stylelint \"**/*.css\""
 	},
 	"dependencies": {
 		"@pinia/nuxt": "^0.5.1",
@@ -32,8 +35,12 @@
 	"devDependencies": {
 		"@nuxt/eslint": "^0.3.13",
 		"@nuxtjs/eslint-config-typescript": "^12.1.0",
+		"@nuxtjs/stylelint-module": "^5.2.0",
 		"eslint": "^9.3.0",
 		"prettier": "^3.2.5",
+		"stylelint": "^16.6.1",
+		"stylelint-config-recommended-vue": "^1.5.0",
+		"stylelint-config-standard": "^36.0.0",
 		"typescript": "^5.4.5",
 		"vue-tsc": "^1"
 	}

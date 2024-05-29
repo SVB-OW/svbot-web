@@ -1,25 +1,27 @@
 // #region Setup
-const http = require('http')
-const express = require('express')
-const cors = require('cors')
-const socketIo = require('socket.io')
-const { MongoClient, ObjectId } = require('mongodb')
-require('dotenv').config()
+import { createServer } from 'http'
+import express, { json, urlencoded } from 'express'
+import cors from 'cors'
+import { Server } from 'socket.io'
+import { MongoClient, ObjectId } from 'mongodb'
+import dotenv from 'dotenv'
+
+dotenv.config()
 const corsOptions = { origin: process.env.HOME_URI }
 
 let db
 ;(async () => {
 	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
-	db = client.db('svbot')
+	db = client.db('svbot-test')
 })()
 
 const app = express()
-const server = http.createServer(app)
-const io = new socketIo.Server(server, { cors: corsOptions })
+const server = createServer(app)
+const io = new Server(server, { cors: corsOptions })
 
 app.use(cors(corsOptions))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(json())
+app.use(urlencoded({ extended: true }))
 // #endregion
 
 const cache = {
@@ -52,7 +54,8 @@ const cache = {
 app.get('/', (_req, res) => {
 	let s = ''
 	app._router.stack.forEach(function (r) {
-		if (r.route && r.route.path) s += Object.keys(r.route.methods) + '&emsp;' + r.route.path + '<br>'
+		if (r.route && r.route.path)
+			s += `${Object.keys(r.route.methods)}&emsp;<a href="${r.route.path}">${r.route.path}</a><br>`
 	})
 	res.send(`API running <br><br>${s}`)
 })
@@ -119,16 +122,13 @@ app.get('/api/currentGame', (_req, res) => {
 // Store current game
 app.post('/api/currentGame', (req, res) => {
 	Object.assign(cache, req.body)
-	// console.log('post post', JSON.stringify(cache));
 	io.emit('game updated', cache) // TODO: this can just send back req.body
 	res.json(cache)
 })
 
 // WS
 io.on('connection', socket => {
-	console.log('on socket connection')
 	socket.on('game updated', game => {
-		console.log('on socket received and reemits "game updated"')
 		socket.emit('game updated', game)
 	})
 })

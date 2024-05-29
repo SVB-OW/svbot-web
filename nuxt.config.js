@@ -27,5 +27,5 @@ export default defineNuxtConfig({
 		port: process.env.HOME_PORT || 4001,
 	},
 	ssr: false,
-	modules: ['@pinia/nuxt', '@nuxt/eslint'],
+	modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxtjs/stylelint-module'],
 })
