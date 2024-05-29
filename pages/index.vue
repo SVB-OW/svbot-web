@@ -53,7 +53,7 @@ function sortedContestants(): Contestant[] {
 }
 
 async function start(): Promise<void> {
-	const { currentGame, update } = useCurrentGameStore()
+	const { update } = useCurrentGameStore()
 	const { list: allContestants, create: createContestant } = useContestantsStore()
 	const input = document.querySelector('#contestant') as HTMLInputElement
 	if (input.reportValidity()) {
@@ -106,4 +106,3 @@ table th:nth-child(2) {
 	width: 150px;
 }
 </style>
-~/stores/contestants~/stores/currentGame

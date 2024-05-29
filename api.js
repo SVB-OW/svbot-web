@@ -9,10 +9,7 @@ const corsOptions = { origin: process.env.HOME_URI }
 
 let db
 ;(async () => {
-	const client = await new MongoClient(process.env.MONGO_URI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	}).connect()
+	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
 	db = client.db('svbot')
 })()
 

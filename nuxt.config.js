@@ -1,3 +1,4 @@
+import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
 	app: {
 		head: {
@@ -26,6 +27,5 @@ export default defineNuxtConfig({
 		port: process.env.HOME_PORT || 4001,
 	},
 	ssr: false,
-	modules: ['@pinia/nuxt'],
-	buildModules: ['@nuxt/typescript-build'],
+	modules: ['@pinia/nuxt', '@nuxt/eslint'],
 })

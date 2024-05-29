@@ -112,4 +112,3 @@ function selectRank2(rank2: Rank): void {
 	margin: 0.5rem 0 0;
 }
 </style>
-~/stores/currentGame~/stores/ranks

@@ -9,10 +9,10 @@ ENV PROD_ERROR_EMAIL ${PROD_ERROR_EMAIL}
 WORKDIR /home/node/app
 
 COPY package*.json ./
-COPY yarn.lock ./
+COPY pnpm.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile --network-timeout 600000
+RUN pnpm install --frozen-lockfile --network-timeout 600000
 
 # Copy files into container
 COPY . .
@@ -23,8 +23,8 @@ FROM base as production
 ENV NODE_PATH=./build
 
 # Build it
-RUN yarn build
-RUN yarn add concurrently
+RUN pnpm build
+RUN pnpm add concurrently
 RUN npx nuxt generate
 
 EXPOSE 40001

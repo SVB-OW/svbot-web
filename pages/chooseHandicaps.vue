@@ -30,24 +30,27 @@
 
 						{{ Math.floor(item.points * rankMultiplier()) }}
 
-						<div class="spacer"></div>
+						<div class="spacer" />
 
 						<img :src="'handicaps/' + (selectedHandicap(item) ? 'black/' : 'orange/') + item.img" :alt="item.text" />
 
-						<div class="spacer"></div>
+						<div class="spacer" />
 
 						<span>{{ item.text }}</span>
 
-						<div class="flex-spacer"></div>
+						<div class="flex-spacer" />
 
-						<button v-if="item.maxStack > 1 && selectedHandicap(item)!.stack > 1" @click.stop="updateStack(item, -1)">
+						<button
+							v-if="item.maxStack > 1 && selectedHandicap(item) && selectedHandicap(item)!.stack > 1"
+							@click.stop="updateStack(item, -1)"
+						>
 							-
 						</button>
-						<div class="spacer"></div>
-						<span v-if="selectedHandicap(item)!.stack > 1">
+						<div class="spacer" />
+						<span v-if="selectedHandicap(item) && selectedHandicap(item)!.stack > 1">
 							{{ selectedHandicap(item)!.stack }}
 						</span>
-						<div class="spacer"></div>
+						<div class="spacer" />
 						<button
 							v-if="item.maxStack > 1 && selectedHandicap(item)"
 							:disabled="selectedHandicap(item)!.stack >= item.maxStack"
@@ -59,15 +62,15 @@
 				</div>
 
 				<div class="bounties">
-					<div v-for="(item, i) in allBounties" :key="i" @click="selectBounty(item)" :title="item.text">
+					<div v-for="(item, i) in allBounties" :key="i" :title="item.text" @click="selectBounty(item)">
 						<img :src="'bounties/' + (item.text === currentGame.bounty.text ? 'on/' : 'off/') + item.img" alt="" />
 						<input
 							v-if="item.text === currentGame.bounty.text"
 							:value="currentGame.bounty.stack"
-							@input="updateBounty"
-							@click.stop
 							type="number"
 							min="0"
+							@input="updateBounty"
+							@click.stop
 						/>
 					</div>
 				</div>
@@ -133,6 +136,7 @@ function defeat(): void {
 }
 
 function toggleHandicap(handicap: Handicap): void {
+	console.log('toggle handicap', handicap.text, selectedHandicap(handicap))
 	if (selectedHandicap(handicap)) {
 		// Remove handicap text from currentGame
 		updateCurrentGame({
@@ -141,6 +145,9 @@ function toggleHandicap(handicap: Handicap): void {
 	} else {
 		// Add handicap text to currentGame
 		handicap.stack = 1
+		updateCurrentGame({
+			handicaps: [...(currentGame as Game).handicaps, handicap],
+		})
 	}
 }
 
@@ -158,7 +165,7 @@ function selectBounty(bounty: Bounty): void {
 }
 
 function selectedHandicap(handicap: Handicap): Handicap | undefined {
-	return (currentGame as Game).handicaps.find(h => h.text === handicap.text)
+	return currentGame.handicaps.find(h => h.text === handicap.text)
 }
 
 function updateBounty(event: Event): void {
@@ -214,6 +221,10 @@ h2 {
 	aspect-ratio: 1/1;
 }
 
+.split-view .bounties input {
+	width: 100%;
+}
+
 .split-view .current-wager img {
 	height: 75px;
 	object-fit: contain;
@@ -263,4 +274,3 @@ h2 {
 	flex: 1 1 auto;
 }
 </style>
-~/stores/bounties~/stores/contestants~/stores/currentGame~/stores/handicaps~/stores/ranks

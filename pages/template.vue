@@ -191,4 +191,3 @@ body {
 	height: 75%;
 }
 </style>
-~/stores/contestants~/stores/currentGame

@@ -94,4 +94,3 @@ a {
 	padding: 0.5rem;
 }
 </style>
-~/stores/contestants~/stores/currentGame

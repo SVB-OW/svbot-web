@@ -9,13 +9,11 @@
 		"build": "nuxt build",
 		"start": "npx concurrently \"node ./.output/server/index.mjs\" \"node api.js\"",
 		"generate": "nuxt generate",
-		"lint-fix": "eslint . --fix",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"format": "prettier --check \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
-		"format-fix": "prettier --write \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
-		"lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
-		"lint:prettier": "prettier --check .",
-		"lint": "yarn lint:js && yarn lint:prettier",
-		"lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+		"format:fix": "prettier --write \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
+		"typecheck": "nuxi typecheck"
 	},
 	"dependencies": {
 		"@pinia/nuxt": "^0.5.1",
@@ -32,6 +30,11 @@
 		"vue-router": "^4.3.0"
 	},
 	"devDependencies": {
-		"prettier": "^3.2.5"
+		"@nuxt/eslint": "^0.3.13",
+		"@nuxtjs/eslint-config-typescript": "^12.1.0",
+		"eslint": "^9.3.0",
+		"prettier": "^3.2.5",
+		"typescript": "^5.4.5",
+		"vue-tsc": "^1"
 	}
 }

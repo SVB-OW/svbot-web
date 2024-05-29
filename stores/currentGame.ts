@@ -28,8 +28,8 @@ export const useCurrentGameStore = defineStore('currentGame', {
 		},
 		async load() {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
-			const game = await fetch(apiEndpoint).then(res => res.json())
-			this.currentGame = Object.assign({}, this.currentGame, game)
+			const { data: game } = await useFetch(apiEndpoint)
+			this.currentGame = Object.assign({}, this.currentGame, game.value)
 			useHandicapsStore().load(this.currentGame)
 			useBountiesStore().load(this.currentGame)
 		},
