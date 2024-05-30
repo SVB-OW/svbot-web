@@ -13,10 +13,11 @@
 		"generate": "nuxt generate",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"lint:style": "stylelint \"**/*.{css,vue}\"",
+		"lint:style:fix": "stylelint \"**/*.{css,vue}\" --fix",
 		"format": "prettier --check \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
 		"format:fix": "prettier --write \"./**/*.{vue,ts,js}\" --ignore-path .gitignore",
-		"typecheck": "nuxi typecheck",
-		"stylecheck": "stylelint \"**/*.css\""
+		"typecheck": "nuxi typecheck"
 	},
 	"dependencies": {
 		"@pinia/nuxt": "^0.5.1",

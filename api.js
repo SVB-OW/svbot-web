@@ -12,7 +12,7 @@ const corsOptions = { origin: process.env.HOME_URI }
 let db
 ;(async () => {
 	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
-	db = client.db('svbot-test')
+	db = client.db(process.env.DB_NAME || 'svbot')
 })()
 
 const app = express()
@@ -27,6 +27,7 @@ app.use(urlencoded({ extended: true }))
 const cache = {
 	contestantId: '',
 	contestantName: '',
+	teamName: '',
 	rank: 'bronze',
 	rank2: 'bronze',
 	handicaps: [
@@ -89,7 +90,7 @@ app.put('/api/contestants', async (req, res) => {
 	try {
 		const collection = await db.collection('contestants')
 
-		const id = ObjectId(req.body._id)
+		const id = new ObjectId(req.body._id)
 		delete req.body._id
 		const result = await collection.updateOne({ _id: id }, { $set: req.body })
 

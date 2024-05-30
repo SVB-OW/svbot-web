@@ -1,6 +1,7 @@
 export class Contestant {
 	_id?: string
 	name = ''
+	teamName = ''
 	personalBest = 0
 	bronzePoints = 0
 	silverPoints = 0

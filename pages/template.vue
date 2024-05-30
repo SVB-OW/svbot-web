@@ -28,7 +28,7 @@
 		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
 
 		<div class="footer-left text-box">
-			{{ currentGame.contestantName }}: {{ contestant.personalBest }}
+			{{ currentGame.teamName }}: {{ teamPoints }}
 			<img src="/points.png" class="wager-icon" />
 		</div>
 		<div class="footer-right text-box">
@@ -57,7 +57,7 @@ definePageMeta({
 
 const { load: loadContestants } = useContestantsStore()
 const { load: loadCurrentGame } = useCurrentGameStore()
-const { currentGame, contestant } = storeToRefs(useCurrentGameStore())
+const { currentGame, teamPoints } = storeToRefs(useCurrentGameStore())
 
 onMounted(async () => {
 	await loadContestants()

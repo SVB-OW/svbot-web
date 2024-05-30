@@ -5,7 +5,8 @@
 			<img src="/gauntlet.50lr.webp" alt="Gauntlet" />
 		</header>
 
-		<input id="contestant" type="text" placeholder="New contestant" required autocomplete="off" />
+		<input id="contestant-name" type="text" placeholder="New contestant" required autocomplete="off" />
+		<input id="team-name" type="text" placeholder="Team Name" required autocomplete="off" />
 
 		<button @click="start()">Start</button>
 
@@ -55,30 +56,33 @@ function sortedContestants(): Contestant[] {
 async function start(): Promise<void> {
 	const { update } = useCurrentGameStore()
 	const { list: allContestants, create: createContestant } = useContestantsStore()
-	const input = document.querySelector('#contestant') as HTMLInputElement
-	if (input.reportValidity()) {
-		const findContestant = allContestants.find((c: Contestant) => c.name === input.value)
+	const contestantName = document.querySelector('#contestant-name') as HTMLInputElement
+	const teamName = document.querySelector('#team-name') as HTMLInputElement
+	if (contestantName.reportValidity() && teamName.reportValidity()) {
+		const findContestant = allContestants.find((c: Contestant) => c.name === contestantName.value)
 		if (findContestant) {
 			continueRun(findContestant)
 			return
 		}
 
 		const obj = new Contestant({
-			name: input.value,
+			name: contestantName.value,
+			teamName: teamName.value,
 		})
 
 		const res = await createContestant(obj)
 		obj._id = res
 
-		input.value = ''
-		update({ contestantId: obj._id, contestantName: obj.name })
+		contestantName.value = ''
+		teamName.value = ''
+		update({ contestantId: obj._id, contestantName: obj.name, teamName: obj.teamName })
 		navigateTo('/chooseRank')
 	}
 }
 
 function continueRun(c: Contestant): void {
 	const { update } = useCurrentGameStore()
-	update({ contestantId: c._id, contestantName: c.name })
+	update({ contestantId: c._id, contestantName: c.name, teamName: c.teamName })
 	navigateTo('/chooseRank')
 }
 </script>

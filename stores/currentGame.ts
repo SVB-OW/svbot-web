@@ -20,6 +20,13 @@ export const useCurrentGameStore = defineStore('currentGame', {
 			const contestantsStore = useContestantsStore()
 			return contestantsStore.list.find((c: Contestant) => c._id === state.currentGame.contestantId) || new Contestant()
 		},
+		teamPoints(state) {
+			const contestantsStore = useContestantsStore()
+			return contestantsStore.read.reduce((acc: number, item: Contestant) => {
+				if (state.currentGame.teamName === item.teamName) acc += item.personalBest
+				return acc
+			}, 0)
+		},
 	},
 	actions: {
 		async read() {
