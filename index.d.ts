@@ -1,14 +1,14 @@
 declare module '#app' {
 	interface NuxtApp {
-		$emitWS(game: Partial<Game>): Promise<void>
-		$startWS(): Promise<void>
+		$publishCurrentGame(game: Partial<Game>): Promise<void>
+		$subscribeCurrentGame(): Promise<void>
 	}
 }
 
 declare module 'vue' {
 	interface ComponentCustomProperties {
-		$emitWS(game: Partial<Game>): Promise<void>
-		$startWS(): Promise<void>
+		$publishCurrentGame(game: Partial<Game>): Promise<void>
+		$subscribeCurrentGame(): Promise<void>
 	}
 }
 

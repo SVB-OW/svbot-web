@@ -10,20 +10,18 @@
 		<TheHandicapsVertical />
 
 		<a href="/stream-elements/rank-team1">Rank Team 1</a>
-		<Icon color="white" img="bronze.png" />
+		<CurrentRankIcon color="white" img="bronze.png" />
 
 		<a href="/stream-elements/rank-team2">Rank Team 2</a>
-		<Icon color="white" img="bronze.png" />
+		<CurrentRankIcon color="white" img="bronze.png" />
 
 		<a href="/stream-elements/top-bar">Top Bar W:1920 H:54</a>
 		<TheTopBar />
 	</div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+<script setup lang="ts">
+definePageMeta({
 	layout: 'empty',
 })
 </script>

@@ -62,7 +62,7 @@ const { currentGame, teamPoints } = storeToRefs(useCurrentGameStore())
 onMounted(async () => {
 	await loadContestants()
 	await loadCurrentGame()
-	useNuxtApp().$startWS()
+	useNuxtApp().$subscribeCurrentGame()
 })
 </script>
 

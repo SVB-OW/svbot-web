@@ -4,7 +4,7 @@
 			<NuxtLink to="/">Leaderboard</NuxtLink>
 			<NuxtLink to="/chooseRank">Choose Rank</NuxtLink>
 			<NuxtLink to="/chooseHandicaps">Choose Handicaps</NuxtLink>
-			<a href="/template.htm">Original Template</a>
+			<a href="/old/template.htm">Old Template</a>
 			<a href="/template">Stream Overlay</a>
 			<a href="/stream-elements">Stream Elements</a>
 		</nav>
@@ -17,7 +17,8 @@
 onMounted(async () => {
 	await useContestantsStore().load()
 	useCurrentGameStore().load()
-	useNuxtApp().$startWS()
+	useNuxtApp().$subscribeCurrentGame()
+	useNuxtApp().$subscribeContestants()
 })
 </script>
 

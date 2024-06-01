@@ -128,14 +128,14 @@ app.get('/api/currentGame', (_req, res) => {
 // Store current game
 app.post('/api/currentGame', (req, res) => {
 	Object.assign(cache, req.body)
-	io.emit('game updated', cache) // TODO: this can just send back req.body
+	io.emit('game updated', cache)
 	res.json(cache)
 })
 
 // WS
 io.on('connection', socket => {
 	socket.on('game updated', game => {
-		console.log('received game updated', game)
+		console.log('received game updated', game.contestantName)
 		socket.emit('game updated', game)
 	})
 	socket.on('contestants updated', list => {

@@ -9,17 +9,16 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { mapGetters } from 'vuex'
-import Vue from 'vue'
+<script setup lang="ts">
+const { currentGame } = storeToRefs(useCurrentGameStore())
 
-export default Vue.extend({
+definePageMeta({
 	layout: 'empty',
-	computed: {
-		...mapGetters({
-			currentGame: 'currentGame/read',
-		}),
-	},
+})
+
+onMounted(async () => {
+	await useCurrentGameStore().load()
+	useNuxtApp().$subscribeCurrentGame()
 })
 </script>
 

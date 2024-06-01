@@ -10,7 +10,7 @@
 			</thead>
 			<tbody>
 				<tr
-					v-for="(contestant, i) in [...sortedContestants].slice(
+					v-for="(contestant, i) in [...sortedContestants()].slice(
 						(startLeaderboardAt - 1) * 10,
 						startLeaderboardAt * 10,
 					)"
@@ -26,69 +26,59 @@
 
 		<br />
 
-		<div v-if="sortedContestants.length > 10">
-			<button
-				v-for="i in Math.ceil(sortedContestants.length / 10)"
-				:key="i"
-				class="page"
-				@click="startLeaderboardAt = i"
-			>
+		<div v-if="sortedContestants().length > 10">
+			<button v-for="i in ceil(sortedContestants().length / 10)" :key="i" class="page" @click="startLeaderboardAt = i">
 				{{ `${(i - 1) * 10 + 1} - ${i * 10}` }}
 			</button>
 		</div>
 	</div>
 </template>
 
-<script lang="ts">
-import { mapActions, mapGetters } from 'vuex'
-import Vue from 'vue'
+<script setup lang="ts">
 import type { Contestant } from '@/types'
 
-export default Vue.extend({
+const { list: allContestants } = storeToRefs(useContestantsStore())
+const { update: updateCurrentGame } = useCurrentGameStore()
+const { ceil } = Math
+const startLeaderboardAt = ref(1)
+
+definePageMeta({
 	layout: 'empty',
-	props: {
-		standalone: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data: () => ({
-		Math,
-		startLeaderboardAt: 1,
-	}),
-	computed: {
-		...mapGetters({
-			allContestants: 'contestants/read',
-		}),
-		sortedContestants(): Contestant[] {
-			return [...this.allContestants].sort((c1: Contestant, c2: Contestant) =>
-				c1.personalBest > c2.personalBest ? -1 : 1,
-			)
-		},
-	},
-	methods: {
-		...mapActions({
-			updateCurrentGame: 'currentGame/update',
-		}),
-		continueRun(c: Contestant): void {
-			this.updateCurrentGame({
-				contestantId: c._id,
-				contestantName: c.name,
-			}).then(() => {
-				this.$router.push('/chooseRank')
-			})
-		},
+})
+
+defineProps({
+	standalone: {
+		type: Boolean,
+		default: false,
 	},
 })
+
+onMounted(async () => {
+	await useContestantsStore().load()
+	useCurrentGameStore().load()
+	useNuxtApp().$subscribeCurrentGame()
+	useNuxtApp().$subscribeContestants()
+})
+
+function sortedContestants(): Contestant[] {
+	return [...allContestants.value].sort((c1: Contestant, c2: Contestant) =>
+		c1.personalBest > c2.personalBest ? -1 : 1,
+	)
+}
+
+function continueRun(c: Contestant): void {
+	updateCurrentGame({
+		contestantId: c._id,
+		contestantName: c.name,
+	}).then(() => {
+		useRouter().push('/chooseRank')
+	})
+}
 </script>
 
 <style scoped>
 table {
 	width: 500px;
-}
-
-.standalone table {
-	width: 100%;
 }
 
 table,
@@ -102,6 +92,10 @@ table td {
 
 table th:nth-child(2) {
 	width: 150px;
+}
+
+.standalone table {
+	width: 100%;
 }
 
 .standalone button {

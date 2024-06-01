@@ -55,8 +55,8 @@ export const useCurrentGameStore = defineStore('currentGame', {
 
 			payload.wager = Math.floor(amountHandicaps + amountBounties)
 
-			const { $emitWS } = useNuxtApp()
-			$emitWS(payload)
+			const { $publishCurrentGame } = useNuxtApp()
+			$publishCurrentGame(payload)
 
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
 			return await fetch(apiEndpoint, {
@@ -66,10 +66,6 @@ export const useCurrentGameStore = defineStore('currentGame', {
 				},
 				body: JSON.stringify(payload),
 			})
-		},
-		// This is only used when receiving an update via WebSocket, so it doesn't reemit the update
-		async writeStore(payload: Partial<Game>) {
-			Object.assign(this.currentGame, payload)
 		},
 	},
 })

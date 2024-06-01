@@ -17,7 +17,9 @@
 		</div>
 		<div class="team1-icon"><img :src="`ranks/orange/${currentGame.rank}.png`" /></div>
 
-		<div class="header-center text-box">Wager: {{ currentGame.wager }} <img src="points.png" class="wager-icon" /></div>
+		<div class="header-center text-box">
+			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
+		</div>
 
 		<div class="team2-name text-box">
 			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
@@ -27,17 +29,11 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { mapGetters } from 'vuex'
-import Vue from 'vue'
+<script setup lang="ts">
+const { currentGame } = storeToRefs(useCurrentGameStore())
 
-export default Vue.extend({
+definePageMeta({
 	layout: 'empty',
-	computed: {
-		...mapGetters({
-			currentGame: 'currentGame/read',
-		}),
-	},
 })
 </script>
 
