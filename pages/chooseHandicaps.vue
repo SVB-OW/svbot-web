@@ -2,7 +2,7 @@
 	<main>
 		<header>
 			<h1>Choose Your Handicaps</h1>
-			<img src="gauntlet.50lr.webp" alt="Gauntlet" />
+			<img src="/gauntlet.50lr.webp" alt="Gauntlet" />
 		</header>
 
 		<div class="split-view">
@@ -10,20 +10,8 @@
 				<h2>
 					CONTESTANT: {{ currentContestant.name }}
 					{{ currentContestant.personalBest }}
-					<img src="points.png" alt="points" width="20px" />
+					<img src="/points.png" alt="points" width="20px" />
 				</h2>
-
-				<!-- <div class="boons-grid">
-          <button
-            v-for="boon in allBoons"
-            :key="boon.text"
-            @click="currentGame.boons.push({ ...boon })"
-            :disabled="currentTotal < Math.floor(boon.points * rankMultiplier)"
-          >
-            {{ boon.text }} {{ Math.floor(boon.points * rankMultiplier) }}
-            <img src="points_black.png" alt="points" width="15px" />
-          </button>
-        </div> -->
 
 				<button @click="defeat">DEFEAT</button>
 				<button @click="victory">VICTORY</button>
@@ -35,26 +23,55 @@
 						v-for="(item, i) in allHandicaps"
 						:key="i"
 						class="handicap-item"
-						:class="{ selected: isSelected(item) }"
+						:class="{ selected: selectedHandicap(item) }"
 						@click="toggleHandicap(item)"
 					>
-						<img :src="isSelected(item) ? 'points_black.png' : 'points.png'" alt="Points" class="points" />
+						<img :src="selectedHandicap(item) ? '/points_black.png' : '/points.png'" alt="Points" class="points" />
 
-						{{ Math.floor(item.points * rankMultiplier) }}
+						{{ Math.floor(item.points * rankMultiplier()) }}
 
-						<div class="spacer"></div>
+						<div class="spacer" />
 
-						<img :src="'handicaps/' + (isSelected(item) ? 'black/' : 'orange/') + item.img" :alt="item.text" />
+						<img :src="'handicaps/' + (selectedHandicap(item) ? 'black/' : 'orange/') + item.img" :alt="item.text" />
 
-						<div class="spacer"></div>
+						<div class="spacer" />
 
 						<span>{{ item.text }}</span>
+
+						<div class="flex-spacer" />
+
+						<button
+							v-if="item.maxStack > 1 && selectedHandicap(item) && selectedHandicap(item)!.stack > 1"
+							@click.stop="updateStack(item, -1)"
+						>
+							-
+						</button>
+						<div class="spacer" />
+						<span v-if="selectedHandicap(item) && selectedHandicap(item)!.stack > 1">
+							{{ selectedHandicap(item)!.stack }}
+						</span>
+						<div class="spacer" />
+						<button
+							v-if="item.maxStack > 1 && selectedHandicap(item)"
+							:disabled="selectedHandicap(item)!.stack >= item.maxStack"
+							@click.stop="updateStack(item, 1)"
+						>
+							+
+						</button>
 					</div>
 				</div>
 
 				<div class="bounties">
-					<div v-for="(item, i) in allBounties" :key="i" @click="selectBounty(item)">
+					<div v-for="(item, i) in allBounties" :key="i" :title="item.text" @click="selectBounty(item)">
 						<img :src="'bounties/' + (item.text === currentGame.bounty.text ? 'on/' : 'off/') + item.img" alt="" />
+						<input
+							v-if="item.text === currentGame.bounty.text"
+							:value="currentGame.bounty.stack"
+							type="number"
+							min="0"
+							@input="updateBounty"
+							@click.stop
+						/>
 					</div>
 				</div>
 			</div>
@@ -62,138 +79,104 @@
 			<div class="right current-wager">
 				<h2>CURRENT WAGER</h2>
 
-				<img :src="'ranks/white/' + currentGame.rank + '.png'" alt="Selected Rank Icon" />
+				<img :src="'/ranks/white/' + currentGame.rank + '.png'" alt="Selected Rank Icon" />
 
 				<div class="amount">
-					<img src="points.png" alt="Points Icon" />
+					<img src="/points.png" alt="Points Icon" />
 					{{ currentGame.wager }}
 				</div>
-
-				<br />
-
-				<!-- <div v-if="currentGame.boons.length" class="boons-cart">
-          <h4>BOONS CART</h4>
-
-          <div v-for="(boon, i) in currentGame.boons" :key="i">
-            <span>
-              {{ boon.text }} {{ boon.points }}
-              <img src="points.png" alt="Points Icon" />
-            </span>
-            <button @click="currentGame.boons = currentGame.boons.filter((b: Boon) => b.stack !== boon.stack)">
-              X
-            </button>
-          </div>
-        </div> -->
 			</div>
 		</div>
 	</main>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { mapActions, mapGetters, mapState } from 'vuex'
-import type { Boon, Bounty, Handicap, Rank } from '@/types'
+<script setup lang="ts">
+import type { Bounty, Handicap } from '@/types'
 import { Game } from '@/types'
 
-export default Vue.extend({
-	computed: {
-		...mapState({
-			currentBounty: 'bounties/selected',
-		}),
-		...mapGetters({
-			allRanks: 'ranks/read',
-			allHandicaps: 'handicaps/read',
-			allBoons: 'boons/read',
-			allBounties: 'bounties/read',
-			currentGame: 'currentGame/read',
-			currentContestant: 'currentGame/contestant',
-		}),
-		rankMultiplier(): number {
-			return this.allRanks.find((r: Rank) => r === this.currentGame.rank)?.multiplier || 1
-		},
-		currentTotal(): number {
-			const amountHandicaps = Math.floor(
-				this.allHandicaps
-					.filter((h: Handicap) => h.selected)
-					.reduce((accumulator: number, currentValue: Handicap) => {
-						return accumulator + currentValue.points
-					}, 0) * this.rankMultiplier,
-			)
+const { list: allBounties } = storeToRefs(useBountiesStore())
+const { list: allHandicaps } = storeToRefs(useHandicapsStore())
+const { list: allRanks } = storeToRefs(useRanksStore())
+const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGameStore())
+const { update: updateCurrentGame } = useCurrentGameStore()
+const { update: updateContestant } = useContestantsStore()
 
-			const amountBoons = Math.floor(
-				this.currentGame.boons.reduce((accumulator: number, currentValue: Boon) => {
-					return accumulator + currentValue.points
-				}, 0) * this.rankMultiplier,
-			)
+function victory(): void {
+	currentContestant.value[currentGame.value.rank + 'Points'] = currentGame.value.wager
+	currentContestant.value.personalBest = Math.max(currentContestant.value.personalBest, currentGame.value.wager)
 
-			return amountHandicaps - amountBoons
-		},
-	},
-	// async beforeMount(): Promise<void> {
-	//   const currentRun = await this.currentGame()
-	//   console.log('currentRun beforeMount chooseHandicaps', currentRun)
+	updateContestant(currentContestant.value)
 
-	//   this.currentContestant =
-	//     this.allContestants.find((c: Contestant) => c._id === currentRun.contestantId) || new Contestant()
-	//   this.rank = currentRun.rank
-	//   this.handicaps = [...this.allHandicaps]
+	navigateTo('/')
+	resetCurrentGame()
+}
 
-	//   this.handicaps.forEach((item: { selected: any; text: string }) => {
-	//     item.selected = currentRun.handicaps.find((h: Handicap) => h.text === item.text)
-	//   })
-	// },
-	methods: {
-		...mapActions({
-			updateContestant: 'contestants/update',
-			updateCurrentGame: 'currentGame/update',
-		}),
-		victory(): void {
-			this.currentContestant[this.currentGame.rank + 'Points'] = this.currentGame.wager
-			this.currentContestant.personalBest = Math.max(this.currentContestant.personalBest, this.currentGame.wager)
+function rankMultiplier(): number {
+	return allRanks.value.find(r => r.name === currentGame.value.rank)?.multiplier || 1
+}
 
-			this.updateContestant(this.currentContestant)
+function defeat(): void {
+	currentContestant.value.bronzePoints = 0
+	currentContestant.value.silverPoints = 0
+	currentContestant.value.goldPoints = 0
+	currentContestant.value.platinumPoints = 0
+	currentContestant.value.diamondPoints = 0
+	currentContestant.value.masterPoints = 0
+	currentContestant.value.grandmasterPoints = 0
 
-			this.$router.push('/')
-			this.resetCurrentGame()
-		},
-		defeat(): void {
-			this.currentContestant.bronzePoints = 0
-			this.currentContestant.silverPoints = 0
-			this.currentContestant.goldPoints = 0
-			this.currentContestant.platinumPoints = 0
-			this.currentContestant.diamondPoints = 0
-			this.currentContestant.masterPoints = 0
-			this.currentContestant.grandmasterPoints = 0
+	currentContestant.value[currentGame.value.rank + 'Points'] =
+		currentGame.value.bounty.points * currentGame.value.bounty.stack
+	currentContestant.value.personalBest = Math.max(
+		currentContestant.value.personalBest,
+		currentGame.value.bounty.points * currentGame.value.bounty.stack,
+	)
 
-			this.updateContestant(this.currentContestant)
+	updateContestant(currentContestant.value)
 
-			this.$router.push('/')
-			this.resetCurrentGame()
-		},
-		toggleHandicap(handicap: Handicap): void {
-			if (this.isSelected(handicap)) {
-				// Remove handicap text from currentGame
-				this.updateCurrentGame({
-					handicaps: (this.currentGame as Game).handicaps.filter(h => h.text !== handicap.text),
-				})
-			} else {
-				// Add handicap text to currentGame
-				this.updateCurrentGame({
-					handicaps: [...(this.currentGame as Game).handicaps, handicap],
-				})
-			}
-		},
-		selectBounty(bounty: Bounty): void {
-			this.updateCurrentGame({ bounty })
-		},
-		isSelected(handicap: Handicap): boolean {
-			return (this.currentGame as Game).handicaps.some(h => h.text === handicap.text)
-		},
-		resetCurrentGame(): void {
-			this.updateCurrentGame(new Game())
-		},
-	},
-})
+	navigateTo('/')
+	resetCurrentGame()
+}
+
+function toggleHandicap(handicap: Handicap): void {
+	if (selectedHandicap(handicap)) {
+		// Remove handicap text from currentGame
+		updateCurrentGame({
+			handicaps: currentGame.value.handicaps.filter(h => h.text !== handicap.text),
+		})
+	} else {
+		// Add handicap text to currentGame
+		handicap.stack = 1
+		updateCurrentGame({
+			handicaps: [...currentGame.value.handicaps, handicap],
+		})
+	}
+}
+
+function updateStack(handicap: Handicap, stack: number): void {
+	const newHandicaps = currentGame.value.handicaps.map(h => {
+		if (h.text === handicap.text) h.stack += stack
+		return h
+	})
+
+	updateCurrentGame({ handicaps: newHandicaps })
+}
+
+function selectBounty(bounty: Bounty): void {
+	updateCurrentGame({ bounty })
+}
+
+function selectedHandicap(handicap: Handicap): Handicap | undefined {
+	return currentGame.value.handicaps.find(h => h.text === handicap.text)
+}
+
+function updateBounty(event: Event): void {
+	const stack = parseInt((event.target as HTMLInputElement).value)
+	updateCurrentGame({ ...currentGame.value, bounty: { ...currentGame.value.bounty, stack } })
+}
+
+function resetCurrentGame(): void {
+	updateCurrentGame(new Game())
+}
 </script>
 
 <style scoped>
@@ -204,10 +187,6 @@ h2 {
 .split-view {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-}
-
-.split-view .boons-grid {
-	margin: 10px 0;
 }
 
 .split-view .handicaps-list {
@@ -221,10 +200,11 @@ h2 {
 	margin: 0 0 0.5rem;
 	transition: 0.3s ease;
 	clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 100%, 0 100%);
+	padding-right: 40px;
 }
 
 .split-view .handicaps-list .handicap-item.selected {
-	background-color: #ff9d16;
+	background-color: var(--main-color);
 	color: black;
 }
 
@@ -242,26 +222,13 @@ h2 {
 	aspect-ratio: 1/1;
 }
 
-.split-view .boons-cart {
+.split-view .bounties input {
 	width: 100%;
-	padding: 0 20%;
-}
-
-.split-view .boons-cart div {
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: space-between;
 }
 
 .split-view .current-wager img {
 	height: 75px;
 	object-fit: contain;
-}
-
-.split-view .boons-cart div img {
-	height: 15px;
-	width: 15px;
 }
 
 .split-view .handicaps-list .handicap-item img {
@@ -272,6 +239,14 @@ h2 {
 
 .split-view .handicaps-list .handicap-item img.points {
 	width: 20px;
+}
+
+.split-view .handicaps-list .handicap-item button {
+	margin: 3px 0;
+	height: calc(100% - 6px);
+	padding: 0;
+	aspect-ratio: 1 / 1;
+	background: var(--main-bg);
 }
 
 .split-view .current-wager {
@@ -294,5 +269,9 @@ h2 {
 
 .spacer {
 	width: 10px;
+}
+
+.flex-spacer {
+	flex: 1 1 auto;
 }
 </style>

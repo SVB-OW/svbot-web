@@ -7,7 +7,7 @@
 			<img
 				v-for="(handicap, i) in currentGame.handicaps"
 				:key="i"
-				:src="`handicaps/orange/${handicap.img}`"
+				:src="`/handicaps/orange/${handicap.img}`"
 				class="handicap"
 			/>
 		</div>
@@ -15,51 +15,54 @@
 			{{ currentGame.contestantName }}
 			<img class="bounty" :src="`bounties/on/${currentGame.bounty.img}`" />
 		</div>
-		<div class="team1-icon"><img :src="`ranks/orange/${currentGame.rank}.png`" /></div>
+		<div class="team1-icon"><img :src="`/ranks/orange/${currentGame.rank}.png`" /></div>
 
-		<div class="header-center text-box">Wager: {{ currentGame.wager }} <img src="points.png" class="wager-icon" /></div>
+		<div class="header-center text-box">
+			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
+		</div>
 
 		<div class="team2-name text-box">
 			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
 			Team
 		</div>
-		<div class="team2-icon"><img :src="`ranks/orange/${currentGame.rank2}.png`" /></div>
+		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
 
 		<div class="footer-left text-box">
-			{{ currentGame.contestantName }}: {{ currentContestant.personalBest }}
-			<img src="points.png" class="wager-icon" />
+			{{ currentGame.teamName }}: {{ teamPoints }}
+			<img src="/points.png" class="wager-icon" />
 		</div>
-		<div class="footer-right text-box">Game {{ gamesPlayed() + 1 }}</div>
+		<div class="footer-right text-box">
+			<img src="/svb-side.png" alt="SVB Side" />
+		</div>
+
+		<pre
+			style="
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 600px;
+				background-color: lightblue;
+				color: black;
+			"
+			>{{ currentGame }}</pre
+		>
 	</div>
 </template>
 
-<script lang="ts">
-import { mapGetters } from 'vuex'
-import Vue from 'vue'
-
-export default Vue.extend({
+<script setup lang="ts">
+definePageMeta({
 	layout: 'empty',
-	computed: {
-		...mapGetters({
-			allRanks: 'ranks/read',
-			currentGame: 'currentGame/read',
-			currentContestant: 'currentGame/contestant',
-		}),
-	},
-	methods: {
-		gamesPlayed(): number {
-			let count = 0
-			if (this.currentContestant.bronzePoints > 0) count++
-			if (this.currentContestant.silverPoints > 0) count++
-			if (this.currentContestant.goldPoints > 0) count++
-			if (this.currentContestant.platinumPoints > 0) count++
-			if (this.currentContestant.diamondPoints > 0) count++
-			if (this.currentContestant.masterPoints > 0) count++
-			if (this.currentContestant.grandmasterPoints > 0) count++
+})
 
-			return count
-		},
-	},
+const { load: loadContestants } = useContestantsStore()
+const { load: loadCurrentGame } = useCurrentGameStore()
+const { currentGame, teamPoints } = storeToRefs(useCurrentGameStore())
+
+onMounted(async () => {
+	await loadContestants()
+	await loadCurrentGame()
+	useNuxtApp().$startWS()
 })
 </script>
 
@@ -185,7 +188,7 @@ body {
 	top: 1028px;
 	left: 595px;
 	width: 300px;
-	height: 55px;
+	height: 51px;
 	justify-content: end;
 }
 
@@ -194,7 +197,11 @@ body {
 	top: 1028px;
 	left: 1025px;
 	width: 300px;
-	height: 55px;
+	height: 51px;
 	justify-content: start;
+}
+
+.footer-right img {
+	height: 75%;
 }
 </style>

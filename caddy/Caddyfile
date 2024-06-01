@@ -1,0 +1,14 @@
+gauntlet.dendorfer.xyz {
+        handle_path /socket.io/* {
+                rewrite * /socket.io{path}
+                reverse_proxy svbot-web:40002
+        }
+        handle_path /undefined/* {
+                reverse_proxy svbot-web:40002
+        }
+        reverse_proxy svbot-web:40001
+}
+
+gauntlet-api.dendorfer.xyz {
+        reverse_proxy svbot-web:40002
+}

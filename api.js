@@ -1,34 +1,34 @@
 // #region Setup
-const http = require('http')
-const express = require('express')
-const cors = require('cors')
-const socketIo = require('socket.io')
-const { MongoClient, ObjectId } = require('mongodb')
-require('dotenv').config()
+import { createServer } from 'http'
+import express, { json, urlencoded } from 'express'
+import cors from 'cors'
+import { Server } from 'socket.io'
+import { MongoClient, ObjectId } from 'mongodb'
+import dotenv from 'dotenv'
+
+dotenv.config()
 const corsOptions = { origin: process.env.HOME_URI }
 
 let db
 ;(async () => {
-	const client = await new MongoClient(process.env.MONGO_URI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	}).connect()
-	db = client.db('svbot')
+	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
+	db = client.db(process.env.DB_NAME || 'svbot')
 })()
 
 const app = express()
-const server = http.createServer(app)
-const io = new socketIo.Server(server, { cors: corsOptions })
+const server = createServer(app)
+const io = new Server(server, { cors: corsOptions })
 
 console.log('corsOptions', corsOptions)
 app.use(cors(corsOptions))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(json())
+app.use(urlencoded({ extended: true }))
 // #endregion
 
 const cache = {
 	contestantId: '',
 	contestantName: '',
+	teamName: '',
 	rank: 'bronze',
 	rank2: 'bronze',
 	handicaps: [
@@ -56,7 +56,8 @@ const cache = {
 app.get('/', (_req, res) => {
 	let s = ''
 	app._router.stack.forEach(function (r) {
-		if (r.route && r.route.path) s += Object.keys(r.route.methods) + '&emsp;' + r.route.path + '<br>'
+		if (r.route && r.route.path)
+			s += `${Object.keys(r.route.methods)}&emsp;<a href="${r.route.path}">${r.route.path}</a><br>`
 	})
 	res.send(`API running <br><br>${s}`)
 })
@@ -92,7 +93,7 @@ app.put('/api/contestants', async (req, res) => {
 	try {
 		const collection = await db.collection('contestants')
 
-		const id = ObjectId(req.body._id)
+		const id = new ObjectId(req.body._id)
 		delete req.body._id
 		const result = await collection.updateOne({ _id: id }, { $set: req.body })
 		io.emit('contestants updated', await collection.find().toArray())
@@ -127,7 +128,6 @@ app.get('/api/currentGame', (_req, res) => {
 // Store current game
 app.post('/api/currentGame', (req, res) => {
 	Object.assign(cache, req.body)
-	// console.log('post post', JSON.stringify(cache));
 	io.emit('game updated', cache) // TODO: this can just send back req.body
 	res.json(cache)
 })

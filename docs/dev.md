@@ -4,12 +4,12 @@
 
 ### Prerequisites
 
-- Node.js 16.19.0
-- Yarn 1.22.19
+- Node.js 22.2.0
+- pnpm 9.1.3
 
 ### Setup
 
-- yarn install
+- pnpm install
 - create .env file with the content below
 
 ```env
@@ -18,16 +18,18 @@ HOME_URI=http://localhost:4001
 API_URI=http://localhost:4002
 HOME_PORT=4001
 API_PORT=4002
+DB_NAME=svbot
 ```
 
 ### Running
 
-Dev: `yarn dev`
-Prod: `yarn build && yarn start`
+Dev: `pnpm dev`
+Prod: `pnpm build && pnpm start`
 
 ### Linting / Formatting
 
-We use ESLint and Prettier for linting and formatting. You can run the following commands to lint and format the code:
+We use ESLint and Prettier for linting and formatting. You can run the following
+commands to lint and format the code:
 
-Check only: `yarn lint`, `yarn format`
-Fix: `yarn lint-fix`, `yarn format-fix`
+Check only: `pnpm lint`, `pnpm format`, `pnpm typecheck`
+Fix: `pnpm lint:fix`, `pnpm format:fix`

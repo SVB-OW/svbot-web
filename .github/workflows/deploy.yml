@@ -17,13 +17,13 @@ jobs:
       API_PORT: ${{ secrets.API_PORT }}
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 16
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm build
       - run: pm2 delete svbot-web || true
       - run: pm2 start npm --name "svbot-web" -- start

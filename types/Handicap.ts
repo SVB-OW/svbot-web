@@ -3,7 +3,9 @@ import {} from '.'
 export class Handicap {
 	points = 0
 	img = ''
-	text = '';
+	text = ''
+	maxStack = 1 // if bigger than 1, it can be stacked
+	stack = 0; // how many times it has been stacked
 
 	[key: string]: any // makes object properties indexable
 

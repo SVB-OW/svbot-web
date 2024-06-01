@@ -1,14 +1,14 @@
-import type { Boon, Handicap } from '.'
+import type { Handicap } from '.'
 import { Bounty, Rank } from '.'
 
 export class Game {
 	contestantId = ''
 	contestantName = ''
+	teamName = ''
 	rank = Rank.bronze
 	rank2 = Rank.bronze
 	wager = 0
 	handicaps = <Handicap[]>[]
-	boons = <Boon[]>[]
 	bounty = new Bounty({
 		points: 2,
 		img: 'emote_on_dead_body.png',
