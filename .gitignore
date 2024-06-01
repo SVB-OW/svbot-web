@@ -1,38 +1,25 @@
-# Logs
-/logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-
-# nuxt.js build output
+# Nuxt dev/build outputs
+.output
+.data
 .nuxt
-
-# Nuxt generate
+.nitro
+.cache
 dist
 
-# Service worker
-sw.*
+# Node dependencies
+node_modules
 
-# macOS
+# Logs
+logs
+*.log
+
+# Misc
 .DS_Store
+.fleet
+.idea
+.stylelintcache
 
-# Other
-caddy/data
-caddy/config/
+# Local env files
+.env
+.env.*
+!.env.example

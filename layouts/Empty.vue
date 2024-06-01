@@ -1,3 +1,5 @@
 <template>
-	<nuxt />
+	<main>
+		<slot />
+	</main>
 </template>

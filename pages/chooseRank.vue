@@ -2,7 +2,7 @@
 	<main>
 		<header>
 			<h1>Choose Your Rank</h1>
-			<img src="gauntlet.50lr.webp" alt="Gauntlet" />
+			<img src="/gauntlet.50lr.webp" alt="Gauntlet" />
 		</header>
 
 		<div class="ranks-grid">
@@ -48,37 +48,21 @@
 	</main>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+<script setup lang="ts">
 import { Rank } from '~/types'
 
-export default Vue.extend({
-	computed: {
-		...mapGetters({
-			allRanks: 'ranks/read',
-			currentContestant: 'currentGame/contestant',
-			currentGame: 'currentGame/read',
-		}),
-	},
-	methods: {
-		...mapActions({
-			updateCurrentGame: 'currentGame/update',
-		}),
-		selectRank(rank: string): void {
-			this.updateCurrentGame({
-				rank,
-				// If unselected (default bronze), use the rank1 as enemy rank, otherwise use rank2
-				rank2: this.currentGame.rank2 === Rank.bronze ? rank : this.currentGame.rank2,
-			}).then(() => {
-				this.$router.push('/chooseHandicaps')
-			})
-		},
-		selectRank2(rank2: string): void {
-			this.updateCurrentGame({ rank2 })
-		},
-	},
-})
+const { update: updateCurrentGame } = useCurrentGameStore()
+const { list: allRanks } = storeToRefs(useRanksStore())
+const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGameStore())
+
+function selectRank(rank: Rank): void {
+	updateCurrentGame({ rank, rank2: currentGame.value.rank2 === Rank.bronze ? rank : currentGame.value.rank2 })
+	navigateTo('/chooseHandicaps')
+}
+
+function selectRank2(rank2: Rank): void {
+	updateCurrentGame({ rank2 })
+}
 </script>
 
 <style scoped>

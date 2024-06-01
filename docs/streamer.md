@@ -1,4 +1,4 @@
-# Streamer Uaage Documentation
+# Streamer Usage Documentation
 
 ## OBS Setup Pre Game
 
