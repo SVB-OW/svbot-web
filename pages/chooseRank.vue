@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { Rank } from '~/types'
+import { Rank } from '@/types'
 
 const { update: updateCurrentGame } = useCurrentGameStore()
 const { list: allRanks } = storeToRefs(useRanksStore())

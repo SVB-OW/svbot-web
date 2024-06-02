@@ -1,6 +1,6 @@
 <template>
 	<div class="handicaps">
-		<div v-for="(handicap, i) in currentGame.handicaps" :key="i" class="handicap">
+		<div v-for="(handicap, i) in handicaps" :key="i" class="handicap">
 			<img :src="`handicaps/orange/${handicap.img}`" />
 			<span>{{ handicap.text }}</span>
 		</div>
@@ -8,10 +8,12 @@
 </template>
 
 <script setup lang="ts">
-const { currentGame } = storeToRefs(useCurrentGameStore())
-
-definePageMeta({
-	layout: 'empty',
+import type { Handicap } from '@/types'
+defineProps({
+	handicaps: {
+		type: Object as PropType<Handicap[]>,
+		required: true,
+	},
 })
 </script>
 

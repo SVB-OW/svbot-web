@@ -10,10 +10,10 @@
 		<TheHandicapsVertical />
 
 		<a href="/stream-elements/rank-team1">Rank Team 1</a>
-		<CurrentRankIcon color="white" img="bronze.png" />
+		<GenericIcon color="white" img="bronze.png" />
 
 		<a href="/stream-elements/rank-team2">Rank Team 2</a>
-		<CurrentRankIcon color="white" img="bronze.png" />
+		<GenericIcon color="white" img="bronze.png" />
 
 		<a href="/stream-elements/top-bar">Top Bar W:1920 H:54</a>
 		<TheTopBar />

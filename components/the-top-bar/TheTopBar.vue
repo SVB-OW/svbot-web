@@ -30,10 +30,13 @@
 </template>
 
 <script setup lang="ts">
-const { currentGame } = storeToRefs(useCurrentGameStore())
+import type { Game } from '@/types'
 
-definePageMeta({
-	layout: 'empty',
+defineProps({
+	currentGame: {
+		type: Object as PropType<Game>,
+		required: true,
+	},
 })
 </script>
 

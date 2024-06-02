@@ -9,11 +9,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 const corsOptions = { origin: process.env.HOME_URI }
 
-let db
-;(async () => {
-	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
-	db = client.db(process.env.DB_NAME || 'svbot')
-})()
+const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
+const db = client.db(process.env.DB_NAME || 'svbot')
 
 const app = express()
 const server = createServer(app)
@@ -31,20 +28,7 @@ const cache = {
 	teamName: '',
 	rank: 'bronze',
 	rank2: 'bronze',
-	handicaps: [
-		// {
-		//   points: 40,
-		//   img: 'no_sound.png',
-		//   text: 'NO IN GAME AUDIO',
-		//   selected: true,
-		// },
-		// {
-		//   points: 40,
-		//   img: 'no_ult.png',
-		//   text: "CAN'T USE ULTIMATE",
-		//   selected: true,
-		// },
-	],
+	handicaps: [],
 	bounty: {
 		points: 2,
 		img: 'emote_on_dead_body.png',

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { Contestant, Game } from '~/types'
-import type { RankMultiplier } from '~/types'
+import { Contestant, Game } from '@/types'
+import type { RankMultiplier } from '@/types'
 import { useContestantsStore } from './contestants'
 import { useBountiesStore } from './bounties'
 import { useHandicapsStore } from './handicaps'

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { Contestant } from '~/types'
+import { Contestant } from '@/types'
+import type { InsertOneResult, UpdateResult } from 'mongodb'
 
 export type ContestantsState = {
 	list: Contestant[]
@@ -26,11 +27,11 @@ export const useContestantsStore = defineStore('contestants', {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(new Contestant(payload)),
-			}).then(response => response.json())
+			}).then(response => response.json() as Promise<InsertOneResult<Document>>)
 
-			payload._id = res.insertedId
+			payload._id = res.insertedId.toString()
 			this.list.push(new Contestant(payload))
-			return res.insertedId
+			return res.insertedId.toString()
 		},
 		async update(payload: Contestant) {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
@@ -40,7 +41,7 @@ export const useContestantsStore = defineStore('contestants', {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(new Contestant(payload)),
-			}).then(response => response.json())
+			}).then(response => response.json() as Promise<UpdateResult<Document>>)
 
 			const foundIndex = this.list.findIndex((e: Contestant) => e._id === payload._id)
 			if (foundIndex >= 0) this.list.splice(foundIndex, 1, new Contestant(payload))
