@@ -1,6 +1,6 @@
 <template>
 	<div class="handicaps">
-		<img v-for="(handicap, i) in handicaps" :key="i" :src="`handicaps/orange/${handicap.img}`" class="handicap" />
+		<img v-for="(handicap, i) in handicaps" :key="i" :src="`/handicaps/orange/${handicap.img}`" />
 	</div>
 </template>
 
@@ -8,7 +8,7 @@
 import type { Handicap } from '@/types'
 defineProps({
 	handicaps: {
-		type: Object as PropType<Handicap[]>,
+		type: Array as PropType<Handicap[]>,
 		required: true,
 	},
 })
@@ -24,7 +24,7 @@ defineProps({
 	height: 52px;
 }
 
-.handicap {
+img {
 	width: 40px;
 	height: 40px;
 	margin-right: 5px;

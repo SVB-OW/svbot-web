@@ -4,25 +4,33 @@
 		<TheLeaderboard standalone />
 
 		<a href="/stream-elements/handicaps">Handicaps Horizontal Icons</a>
-		<TheHandicaps />
+		<TheHandicaps :handicaps="currentGame.handicaps" />
 
 		<a href="/stream-elements/handicaps-vertical">Handicaps Vertical List</a>
-		<TheHandicapsVertical />
+		<TheHandicapsVertical :handicaps="currentGame.handicaps" />
 
 		<a href="/stream-elements/rank-team1">Rank Team 1</a>
-		<GenericIcon color="white" img="bronze.png" />
-
-		<a href="/stream-elements/rank-team2">Rank Team 2</a>
-		<GenericIcon color="white" img="bronze.png" />
+		<GenericIcon src="/ranks/orange/bronze.png" />
 
 		<a href="/stream-elements/top-bar">Top Bar W:1920 H:54</a>
-		<TheTopBar />
+		<TheTopBar :current-game="currentGame" />
 	</div>
 </template>
 
 <script setup lang="ts">
+const { currentGame } = storeToRefs(useCurrentGameStore())
+
+const { load: loadContestants } = useContestantsStore()
+const { load: loadCurrentGame } = useCurrentGameStore()
+
 definePageMeta({
 	layout: 'empty',
+})
+
+onMounted(async () => {
+	await loadContestants()
+	await loadCurrentGame()
+	useNuxtApp().$subscribeCurrentGame()
 })
 </script>
 

@@ -1,5 +1,8 @@
 <template>
 	<div :class="{ standalone: standalone }">
+		<link rel="preconnect" href="https://fonts.bunny.net" />
+		<link href="https://fonts.bunny.net/css2?family=Rubik&display=swap" rel="stylesheet" />
+
 		<table>
 			<thead>
 				<tr>
@@ -63,12 +66,16 @@ function clickRow(c: Contestant): void {
 <style scoped>
 table {
 	width: 500px;
+	box-sizing: border-box;
+	font-family: Rubik, sans-serif;
+	font-size: 26px;
+	color: var(--main-color, #ff9d16);
 }
 
 table,
 table th,
 table td {
-	border: 1px solid var(--main-color);
+	border: 1px solid var(--main-color, #ff9d16);
 	border-collapse: collapse;
 	padding: 0.5rem 1rem;
 	width: fit-content;

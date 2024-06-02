@@ -16,7 +16,7 @@ export const useContestantsStore = defineStore('contestants', {
 	actions: {
 		async load() {
 			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
-			const res = await (await fetch(apiEndpoint)).json()
+			const res = (await (await fetch(apiEndpoint)).json()) as Contestant[]
 			this.list = res
 		},
 		async create(payload: Partial<Contestant>) {

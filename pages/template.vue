@@ -3,29 +3,7 @@
 		<link rel="preconnect" href="https://fonts.bunny.net" />
 		<link href="https://fonts.bunny.net/css2?family=Rubik&display=swap" rel="stylesheet" />
 
-		<div class="handicaps">
-			<img
-				v-for="(handicap, i) in currentGame.handicaps"
-				:key="i"
-				:src="`/handicaps/orange/${handicap.img}`"
-				class="handicap"
-			/>
-		</div>
-		<div class="team1-name text-box">
-			{{ currentGame.contestantName }}
-			<img class="bounty" :src="`bounties/on/${currentGame.bounty.img}`" />
-		</div>
-		<div class="team1-icon"><img :src="`/ranks/orange/${currentGame.rank}.png`" /></div>
-
-		<div class="header-center text-box">
-			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
-		</div>
-
-		<div class="team2-name text-box">
-			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
-			Team
-		</div>
-		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
+		<the-top-bar :current-game="currentGame" />
 
 		<div class="footer-left text-box">
 			{{ currentGame.teamName }}: {{ teamPoints }}
@@ -70,8 +48,6 @@ onMounted(async () => {
 * {
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 26px;
 	color: white;
 }

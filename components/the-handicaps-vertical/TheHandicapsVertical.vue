@@ -1,9 +1,12 @@
 <template>
 	<div class="handicaps">
-		<div v-for="(handicap, i) in handicaps" :key="i" class="handicap">
-			<img :src="`handicaps/orange/${handicap.img}`" />
+		<link rel="preconnect" href="https://fonts.bunny.net" />
+		<link href="https://fonts.bunny.net/css2?family=Rubik&display=swap" rel="stylesheet" />
+
+		<template v-for="(handicap, i) in handicaps" :key="i">
+			<img :src="`/handicaps/orange/${handicap.img}`" />
 			<span>{{ handicap.text }}</span>
-		</div>
+		</template>
 	</div>
 </template>
 
@@ -18,19 +21,21 @@ defineProps({
 </script>
 
 <style scoped>
+* {
+	box-sizing: border-box;
+	font-family: Rubik, sans-serif;
+	font-size: 26px;
+	color: var(--main-color, #ff9d16);
+}
+
 .handicaps {
-	padding-top: 1px;
-	padding-left: 20px;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 16px;
 }
 
-.handicap {
-	display: flex;
-	align-items: center;
-}
-
-.handicap img {
+img {
 	width: 40px;
 	height: 40px;
-	margin-right: 5px;
 }
 </style>

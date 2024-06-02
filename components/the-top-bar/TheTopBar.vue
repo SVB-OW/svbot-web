@@ -3,19 +3,12 @@
 		<link rel="preconnect" href="https://fonts.bunny.net" />
 		<link href="https://fonts.bunny.net/css2?family=Rubik&display=swap" rel="stylesheet" />
 
-		<div class="handicaps">
-			<img
-				v-for="(handicap, i) in currentGame.handicaps"
-				:key="i"
-				:src="`handicaps/orange/${handicap.img}`"
-				class="handicap"
-			/>
-		</div>
+		<the-handicaps :handicaps="currentGame.handicaps" />
 		<div class="team1-name text-box">
 			{{ currentGame.contestantName }}
-			<img class="bounty" :src="`bounties/on/${currentGame.bounty.img}`" />
+			<img class="bounty" :src="`/bounties/on/${currentGame.bounty.img}`" />
 		</div>
-		<div class="team1-icon"><img :src="`ranks/orange/${currentGame.rank}.png`" /></div>
+		<div class="team1-icon"><img :src="`/ranks/orange/${currentGame.rank}.png`" /></div>
 
 		<div class="header-center text-box">
 			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
@@ -25,12 +18,13 @@
 			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
 			Team
 		</div>
-		<div class="team2-icon"><img :src="`ranks/orange/${currentGame.rank2}.png`" /></div>
+		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import type { Game } from '@/types'
+import TheHandicaps from '../the-handicaps/TheHandicaps.vue'
 
 defineProps({
 	currentGame: {
@@ -44,8 +38,6 @@ defineProps({
 * {
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 26px;
 	color: white;
 }
@@ -77,16 +69,6 @@ body {
 .handicaps {
 	padding-top: 1px;
 	padding-left: 20px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	height: 52px;
-}
-
-.handicap {
-	width: 40px;
-	height: 40px;
-	margin-right: 5px;
 }
 
 .bounty {
