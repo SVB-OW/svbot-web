@@ -1,13 +1,16 @@
 <!-- 
 	Examples:
-	http://localhost:4001/stream-elements/leaderboard?contestants=allContestants
-	http://localhost:4001/stream-elements/handicaps?handicaps=currentHandicaps
-	http://localhost:4001/stream-elements/handicaps-vertical?handicaps=currentHandicaps
-	http://localhost:4001/stream-elements/top-bar?currentGame=currentGame
+	http://localhost:4001/stream-elements/the-leaderboard
+	http://localhost:4001/stream-elements/the-handicaps
+	http://localhost:4001/stream-elements/the-handicaps-vertical
+	http://localhost:4001/stream-elements/the-top-bar
  -->
 <template>
 	<div>
-		<component :is="renderComponent" v-bind="args" />
+		<the-handicaps v-if="route.params.slug === 'the-handicaps'" :handicaps="currentGame.handicaps" />
+		<the-handicaps-vertical v-if="route.params.slug === 'the-handicaps-vertical'" :handicaps="currentGame.handicaps" />
+		<the-leaderboard v-if="route.params.slug === 'the-leaderboard'" :contestants="allContestants" />
+		<the-top-bar v-if="route.params.slug === 'the-top-bar'" :current-game="currentGame" />
 	</div>
 </template>
 
@@ -32,31 +35,6 @@ definePageMeta({
 
 useHead({
 	title: 'Stream Element ' + route.params.slug,
-})
-
-const components = {
-	leaderboard: resolveComponent('the-leaderboard'),
-	handicaps: resolveComponent('TheHandicaps'),
-	'handicaps-vertical': resolveComponent('TheHandicapsVertical'),
-	'top-bar': resolveComponent('TheTopBar'),
-}
-
-const currentHandicaps = computed(() => currentGame.value.handicaps)
-
-const data: { [string: string]: Ref } = {
-	allContestants,
-	currentHandicaps,
-	currentGame,
-}
-
-const renderComponent = computed(() => {
-	return components[route.params.slug as keyof typeof components]
-})
-
-const args = computed(() => {
-	return Object.fromEntries(
-		Object.entries(route.query).map(([key, value]) => [key, unref(data[value as keyof typeof data])]),
-	)
 })
 </script>
 

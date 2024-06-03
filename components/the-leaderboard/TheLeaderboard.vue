@@ -70,6 +70,7 @@ table {
 	font-family: Rubik, sans-serif;
 	font-size: 26px;
 	color: var(--main-color, #ff9d16);
+	text-align: left;
 }
 
 table,
