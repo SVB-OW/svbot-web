@@ -16,8 +16,6 @@ defineProps({
 
 <style scoped>
 .handicaps {
-	padding-top: 1px;
-	padding-left: 20px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;

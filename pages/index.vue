@@ -23,6 +23,10 @@ const { update: updateCurrentGame } = useCurrentGameStore()
 const { create: createContestant } = useContestantsStore()
 const { list: allContestants } = storeToRefs(useContestantsStore())
 
+useHead({
+	title: 'Leaderboard',
+})
+
 async function start(): Promise<void> {
 	const contestantName = document.querySelector('#contestant-name') as HTMLInputElement
 	const teamName = document.querySelector('#team-name') as HTMLInputElement

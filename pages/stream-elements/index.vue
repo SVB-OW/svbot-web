@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<a href="/stream-elements/leaderboard">Leaderboard W:340 H:400</a>
-		<TheLeaderboard standalone />
+		<TheLeaderboard standalone :contestants="allContestants" />
 
 		<a href="/stream-elements/handicaps">Handicaps Horizontal Icons</a>
 		<TheHandicaps :handicaps="currentGame.handicaps" />
@@ -19,12 +19,17 @@
 
 <script setup lang="ts">
 const { currentGame } = storeToRefs(useCurrentGameStore())
+const { list: allContestants } = storeToRefs(useContestantsStore())
 
 const { load: loadContestants } = useContestantsStore()
 const { load: loadCurrentGame } = useCurrentGameStore()
 
 definePageMeta({
 	layout: 'empty',
+})
+
+useHead({
+	title: 'Stream Elements',
 })
 
 onMounted(async () => {

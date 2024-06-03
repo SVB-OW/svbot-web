@@ -33,6 +33,10 @@ definePageMeta({
 	layout: 'empty',
 })
 
+useHead({
+	title: 'Template',
+})
+
 const { load: loadContestants } = useContestantsStore()
 const { load: loadCurrentGame } = useCurrentGameStore()
 const { currentGame, teamPoints } = storeToRefs(useCurrentGameStore())

@@ -55,6 +55,10 @@ const { update: updateCurrentGame } = useCurrentGameStore()
 const { list: allRanks } = storeToRefs(useRanksStore())
 const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGameStore())
 
+useHead({
+	title: 'Choose Rank',
+})
+
 function selectRank(rank: Rank): void {
 	updateCurrentGame({ rank, rank2: currentGame.value.rank2 === Rank.bronze ? rank : currentGame.value.rank2 })
 	navigateTo('/chooseHandicaps')
