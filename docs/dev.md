@@ -4,8 +4,8 @@
 
 ### Prerequisites
 
-- Node.js 22.2.0
-- pnpm 9.1.3
+- Node.js 20.14.0
+- pnpm 9.1.4
 
 ### Setup
 

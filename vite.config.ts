@@ -1,3 +1,4 @@
+// This file is only used for storybook
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 

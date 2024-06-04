@@ -1,4 +1,4 @@
-FROM node:22 as base
+FROM node:20 as base
 
 LABEL description="SVBot-Web"
 LABEL version="1.3"
