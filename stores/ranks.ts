@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { RankMultiplier } from '~/types'
+import type { RankMultiplier } from '@/types'
 
 export type RanksState = {
 	list: RankMultiplier[]

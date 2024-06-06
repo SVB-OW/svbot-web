@@ -3,52 +3,38 @@
 		<link rel="preconnect" href="https://fonts.bunny.net" />
 		<link href="https://fonts.bunny.net/css2?family=Rubik&display=swap" rel="stylesheet" />
 
-		<the-top-bar :current-game="currentGame" />
-
-		<div class="footer-left text-box">
-			{{ currentGame.teamName }}: {{ teamPoints }}
-			<img src="/points.png" class="wager-icon" />
+		<the-handicaps :handicaps="currentGame.handicaps" />
+		<div class="team1-name text-box">
+			{{ currentGame.contestantName }}
+			<img class="bounty" :src="`/bounties/on/${currentGame.bounty.img}`" />
 		</div>
-		<div class="footer-right text-box">
-			<img src="/svb-side.png" alt="SVB Side" />
+		<div class="team1-icon"><img :src="`/ranks/orange/${currentGame.rank}.png`" /></div>
+
+		<div class="header-center text-box">
+			Wager: {{ currentGame.wager }} <img src="/points.png" class="wager-icon" />
 		</div>
 
-		<pre
-			style="
-				position: absolute;
-				left: 50%;
-				top: 50%;
-				transform: translate(-50%, -50%);
-				width: 600px;
-				background-color: lightblue;
-				color: black;
-			"
-			>{{ currentGame }}</pre
-		>
+		<div class="team2-name text-box">
+			{{ currentGame.rank2.charAt(0).toUpperCase() + currentGame.rank2.slice(1) }}
+			Team
+		</div>
+		<div class="team2-icon"><img :src="`/ranks/orange/${currentGame.rank2}.png`" /></div>
 	</div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-	layout: 'empty',
-})
+import type { Game } from '@/types'
+import TheHandicaps from '../the-handicaps/TheHandicaps.vue'
 
-useHead({
-	title: 'Template',
-})
-
-const { load: loadContestants } = useContestantsStore()
-const { load: loadCurrentGame } = useCurrentGameStore()
-const { currentGame, teamPoints } = storeToRefs(useCurrentGameStore())
-
-onMounted(async () => {
-	await loadContestants()
-	await loadCurrentGame()
-	useNuxtApp().$subscribeCurrentGame()
+defineProps({
+	currentGame: {
+		type: Object as PropType<Game>,
+		required: true,
+	},
 })
 </script>
 
-<style>
+<style scoped>
 * {
 	box-sizing: border-box;
 	font-family: Rubik, sans-serif;
@@ -76,23 +62,13 @@ body {
 	background: grey;
 	background: url('/overlay_background.png');
 	width: 1920px;
-	height: 1080px;
+	height: 54px;
 	position: relative;
 }
 
 .handicaps {
 	padding-top: 1px;
 	padding-left: 20px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	height: 52px;
-}
-
-.handicap {
-	width: 40px;
-	height: 40px;
-	margin-right: 5px;
 }
 
 .bounty {
@@ -161,27 +137,5 @@ body {
 .header-center .wager-icon {
 	width: 20px;
 	height: 20px;
-}
-
-.footer-left {
-	position: absolute;
-	top: 1028px;
-	left: 595px;
-	width: 300px;
-	height: 51px;
-	justify-content: end;
-}
-
-.footer-right {
-	position: absolute;
-	top: 1028px;
-	left: 1025px;
-	width: 300px;
-	height: 51px;
-	justify-content: start;
-}
-
-.footer-right img {
-	height: 75%;
 }
 </style>

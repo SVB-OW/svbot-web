@@ -23,7 +23,8 @@ export default defineNuxtConfig({
 			API_URI: process.env.API_URL || 'http://localhost:4002',
 		},
 	},
-	devServer: {
+	server: {
+		host: '0.0.0.0',
 		port: process.env.HOME_PORT || 4001,
 	},
 	ssr: false,

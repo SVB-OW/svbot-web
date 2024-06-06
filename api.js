@@ -9,16 +9,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 const corsOptions = { origin: process.env.HOME_URI }
 
-let db
-;(async () => {
-	const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
-	db = client.db(process.env.DB_NAME || 'svbot')
-})()
+const client = await new MongoClient(process.env.MONGO_URI, {}).connect()
+const db = client.db(process.env.DB_NAME || 'svbot')
 
 const app = express()
 const server = createServer(app)
 const io = new Server(server, { cors: corsOptions })
 
+console.log('corsOptions', corsOptions)
 app.use(cors(corsOptions))
 app.use(json())
 app.use(urlencoded({ extended: true }))
@@ -30,20 +28,7 @@ const cache = {
 	teamName: '',
 	rank: 'bronze',
 	rank2: 'bronze',
-	handicaps: [
-		// {
-		//   points: 40,
-		//   img: 'no_sound.png',
-		//   text: 'NO IN GAME AUDIO',
-		//   selected: true,
-		// },
-		// {
-		//   points: 40,
-		//   img: 'no_ult.png',
-		//   text: "CAN'T USE ULTIMATE",
-		//   selected: true,
-		// },
-	],
+	handicaps: [],
 	bounty: {
 		points: 2,
 		img: 'emote_on_dead_body.png',
@@ -78,6 +63,8 @@ app.post('/api/contestants', async (req, res) => {
 		const collection = await db.collection('contestants')
 
 		const result = await collection.insertOne(req.body)
+		io.emit('contestants updated', await collection.find().toArray())
+
 		res.json(result)
 	} catch (e) {
 		console.error('e', e)
@@ -93,6 +80,7 @@ app.put('/api/contestants', async (req, res) => {
 		const id = new ObjectId(req.body._id)
 		delete req.body._id
 		const result = await collection.updateOne({ _id: id }, { $set: req.body })
+		io.emit('contestants updated', await collection.find().toArray())
 
 		res.json({ modifiedCount: result.modifiedCount })
 	} catch (e) {
@@ -107,6 +95,7 @@ app.delete('/api/contestants', async (req, res) => {
 		const collection = await db.collection('contestants')
 
 		const result = await collection.deleteOne(req.body)
+		io.emit('contestants updated', await collection.find().toArray())
 
 		res.json(result)
 	} catch (e) {
@@ -123,14 +112,19 @@ app.get('/api/currentGame', (_req, res) => {
 // Store current game
 app.post('/api/currentGame', (req, res) => {
 	Object.assign(cache, req.body)
-	io.emit('game updated', cache) // TODO: this can just send back req.body
+	io.emit('game updated', cache)
 	res.json(cache)
 })
 
 // WS
 io.on('connection', socket => {
 	socket.on('game updated', game => {
+		console.log('received game updated', game.contestantName)
 		socket.emit('game updated', game)
+	})
+	socket.on('contestants updated', list => {
+		console.log('received contestants updated', list)
+		socket.emit('contestants updated', list)
 	})
 })
 

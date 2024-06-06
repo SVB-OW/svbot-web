@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { Game } from '~/types'
-import { Handicap } from '~/types'
+import type { Game } from '@/types'
+import { Handicap } from '@/types'
 
 export type HandicapsState = {
 	list: Handicap[]

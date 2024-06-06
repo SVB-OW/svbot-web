@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { Game } from '~/types'
-import { Bounty } from '~/types'
+import type { Game } from '@/types'
+import { Bounty } from '@/types'
 
 export type BountiesState = {
 	list: Bounty[]

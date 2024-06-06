@@ -12,70 +12,46 @@
 
 		<br /><br />
 
-		<div class="split-view">
-			<table>
-				<tbody>
-					<tr
-						v-for="(contestant, i) in sortedContestants().slice((startLeaderboardAt - 1) * 10, startLeaderboardAt * 10)"
-						:key="i"
-						@click="continueRun(contestant)"
-					>
-						<td>{{ contestant.name }}</td>
-						<td>{{ contestant.personalBest }}</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<br />
-
-			<div v-if="sortedContestants().length > 10">
-				<button
-					v-for="i in ceil(sortedContestants().length / 10)"
-					:key="i"
-					class="page"
-					@click="startLeaderboardAt = i"
-				>
-					{{ `${(i - 1) * 10 + 1} - ${i * 10}` }}
-				</button>
-			</div>
-		</div>
+		<TheLeaderboard :contestants="allContestants" @click-row="continueRun" />
 	</main>
 </template>
 
 <script setup lang="ts">
 import { Contestant } from '@/types'
 
-const { ceil } = Math
-const startLeaderboardAt = ref(1)
+const { update: updateCurrentGame } = useCurrentGameStore()
+const { create: createContestant } = useContestantsStore()
+const { list: allContestants } = storeToRefs(useContestantsStore())
 
-function sortedContestants(): Contestant[] {
-	const { list: allContestants } = useContestantsStore()
-	return [...allContestants].sort((c1: Contestant, c2: Contestant) => (c1.personalBest > c2.personalBest ? -1 : 1))
-}
+useHead({
+	title: 'Leaderboard',
+})
 
 async function start(): Promise<void> {
-	const { update } = useCurrentGameStore()
-	const { list: allContestants, create: createContestant } = useContestantsStore()
 	const contestantName = document.querySelector('#contestant-name') as HTMLInputElement
 	const teamName = document.querySelector('#team-name') as HTMLInputElement
+
+	// Check if the input fields are valid
 	if (contestantName.reportValidity() && teamName.reportValidity()) {
-		const findContestant = allContestants.find((c: Contestant) => c.name === contestantName.value)
+		// Check if contestant already exists and continue run if so
+		const findContestant = allContestants.value.find((c: Contestant) => c.name === contestantName.value)
 		if (findContestant) {
 			continueRun(findContestant)
 			return
 		}
 
+		// Create new contestant
 		const obj = new Contestant({
 			name: contestantName.value,
 			teamName: teamName.value,
 		})
-
 		const res = await createContestant(obj)
 		obj._id = res
 
+		// Reset input fields, update current game and navigate to chooseRank
 		contestantName.value = ''
 		teamName.value = ''
-		update({ contestantId: obj._id, contestantName: obj.name, teamName: obj.teamName })
+		await updateCurrentGame({ contestantId: obj._id, contestantName: obj.name, teamName: obj.teamName })
 		navigateTo('/chooseRank')
 	}
 }
@@ -88,11 +64,6 @@ function continueRun(c: Contestant): void {
 </script>
 
 <style scoped>
-.split-view {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-}
-
 table {
 	width: 500px;
 }

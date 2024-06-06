@@ -101,6 +101,10 @@ const { currentGame, contestant: currentContestant } = storeToRefs(useCurrentGam
 const { update: updateCurrentGame } = useCurrentGameStore()
 const { update: updateContestant } = useContestantsStore()
 
+useHead({
+	title: 'Choose Handicaps',
+})
+
 function victory(): void {
 	currentContestant.value[currentGame.value.rank + 'Points'] = currentGame.value.wager
 	currentContestant.value.personalBest = Math.max(currentContestant.value.personalBest, currentGame.value.wager)
