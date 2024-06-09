@@ -15,6 +15,7 @@ jobs:
       API_URI: ${{ secrets.API_URI }}
       HOME_PORT: ${{ secrets.HOME_PORT }}
       API_PORT: ${{ secrets.API_PORT }}
+      NITRO_PORT: ${{ secrets.HOME_PORT }}
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4

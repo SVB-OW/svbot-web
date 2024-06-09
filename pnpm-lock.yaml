@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@nuxt/eslint':
+        specifier: ^0.3.13
+        version: 0.3.13(eslint@9.4.0)(nuxt@3.11.2(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.60.3)(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.18.0))(vue@3.4.27(typescript@5.4.5)))(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(unocss@0.60.3(postcss@8.4.38)(rollup@4.18.0)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1)))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(vue-tsc@2.0.19(typescript@5.4.5)))(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))
+      '@nuxtjs/eslint-config-typescript':
+        specifier: ^12.1.0
+        version: 12.1.0(eslint@9.4.0)(typescript@5.4.5)
+      '@nuxtjs/stylelint-module':
+        specifier: ^5.2.0
+        version: 5.2.0(postcss@8.4.38)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(webpack@5.91.0(esbuild@0.21.4))
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.18.0)(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
@@ -48,15 +57,6 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(vue@3.4.27(typescript@5.4.5))
     devDependencies:
-      '@nuxt/eslint':
-        specifier: ^0.3.13
-        version: 0.3.13(eslint@9.4.0)(nuxt@3.11.2(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.60.3)(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.18.0))(vue@3.4.27(typescript@5.4.5)))(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(unocss@0.60.3(postcss@8.4.38)(rollup@4.18.0)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1)))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(vue-tsc@2.0.19(typescript@5.4.5)))(rollup@4.18.0)(typescript@5.4.5)(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))
-      '@nuxtjs/eslint-config-typescript':
-        specifier: ^12.1.0
-        version: 12.1.0(eslint@9.4.0)(typescript@5.4.5)
-      '@nuxtjs/stylelint-module':
-        specifier: ^5.2.0
-        version: 5.2.0(postcss@8.4.38)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(webpack@5.91.0(esbuild@0.20.2))
       '@storybook/addon-essentials':
         specifier: ^8.1.6
         version: 8.1.6(@types/react@18.3.3)(encoding@0.1.13)(prettier@3.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -7232,6 +7232,9 @@ packages:
   vue-component-type-helpers@2.0.19:
     resolution: {integrity: sha512-cN3f1aTxxKo4lzNeQAkVopswuImUrb5Iurll9Gaw5cqpnbTAxtEMM1mgi6ou4X79OCyqYv1U1mzBHJkzmiK82w==}
 
+  vue-component-type-helpers@2.0.21:
+    resolution: {integrity: sha512-3NaicyZ7N4B6cft4bfb7dOnPbE9CjLcx+6wZWAg5zwszfO4qXRh+U52dN5r5ZZfc6iMaxKCEcoH9CmxxoFZHLg==}
+
   vue-demi@0.14.8:
     resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
     engines: {node: '>=12'}
@@ -9109,13 +9112,13 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  '@nuxtjs/stylelint-module@5.2.0(postcss@8.4.38)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(webpack@5.91.0(esbuild@0.20.2))':
+  '@nuxtjs/stylelint-module@5.2.0(postcss@8.4.38)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))(webpack@5.91.0(esbuild@0.21.4))':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.18.0)
       chokidar: 3.6.0
       pathe: 1.1.2
       stylelint: 16.6.1(typescript@5.4.5)
-      stylelint-webpack-plugin: 5.0.1(stylelint@16.6.1(typescript@5.4.5))(webpack@5.91.0(esbuild@0.20.2))
+      stylelint-webpack-plugin: 5.0.1(stylelint@16.6.1(typescript@5.4.5))(webpack@5.91.0(esbuild@0.21.4))
       vite-plugin-stylelint: 5.3.1(postcss@8.4.38)(rollup@4.18.0)(stylelint@16.6.1(typescript@5.4.5))(vite@5.2.12(@types/node@20.14.2)(terser@5.31.1))
     transitivePeerDependencies:
       - '@types/stylelint'
@@ -10185,7 +10188,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.27(typescript@5.4.5)
-      vue-component-type-helpers: 2.0.19
+      vue-component-type-helpers: 2.0.21
     transitivePeerDependencies:
       - encoding
       - prettier
@@ -15638,7 +15641,7 @@ snapshots:
       stylelint: 16.6.1(typescript@5.4.5)
       stylelint-config-recommended: 14.0.0(stylelint@16.6.1(typescript@5.4.5))
 
-  stylelint-webpack-plugin@5.0.1(stylelint@16.6.1(typescript@5.4.5))(webpack@5.91.0(esbuild@0.20.2)):
+  stylelint-webpack-plugin@5.0.1(stylelint@16.6.1(typescript@5.4.5))(webpack@5.91.0(esbuild@0.21.4)):
     dependencies:
       globby: 11.1.0
       jest-worker: 29.7.0
@@ -15646,7 +15649,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 4.2.0
       stylelint: 16.6.1(typescript@5.4.5)
-      webpack: 5.91.0(esbuild@0.20.2)
+      webpack: 5.91.0(esbuild@0.21.4)
 
   stylelint@16.6.1(typescript@5.4.5):
     dependencies:
@@ -15787,16 +15790,16 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  terser-webpack-plugin@5.3.10(esbuild@0.20.2)(webpack@5.91.0(esbuild@0.20.2)):
+  terser-webpack-plugin@5.3.10(esbuild@0.21.4)(webpack@5.91.0(esbuild@0.21.4)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
       terser: 5.31.1
-      webpack: 5.91.0(esbuild@0.20.2)
+      webpack: 5.91.0(esbuild@0.21.4)
     optionalDependencies:
-      esbuild: 0.20.2
+      esbuild: 0.21.4
 
   terser@5.31.1:
     dependencies:
@@ -16340,6 +16343,8 @@ snapshots:
 
   vue-component-type-helpers@2.0.19: {}
 
+  vue-component-type-helpers@2.0.21: {}
+
   vue-demi@0.14.8(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       vue: 3.4.27(typescript@5.4.5)
@@ -16438,7 +16443,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.91.0(esbuild@0.20.2):
+  webpack@5.91.0(esbuild@0.21.4):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.5
@@ -16461,7 +16466,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(esbuild@0.20.2)(webpack@5.91.0(esbuild@0.20.2))
+      terser-webpack-plugin: 5.3.10(esbuild@0.21.4)(webpack@5.91.0(esbuild@0.21.4))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
