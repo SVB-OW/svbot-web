@@ -6,6 +6,11 @@
 .cache
 dist
 
+# Docker volumes
+caddy/
+!caddy/Caddyfile
+mongodb-data/
+
 # Node dependencies
 node_modules
 

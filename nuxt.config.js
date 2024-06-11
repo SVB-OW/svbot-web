@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
+console.log('nuxt.config', process.env.HOME_URI, process.env.API_URI, process.env)
 export default defineNuxtConfig({
 	app: {
 		head: {

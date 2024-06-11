@@ -1,7 +1,6 @@
-version: '3.7'
-
 services:
-  svbot-web:
+  web:
+    container_name: web
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,15 +8,34 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/home/node/app/src
-      - ./nodemon.json:/home/node/app/nodemon.json
-    container_name: svbot-web
     command: npm start
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://db:27017/svbot
+      - HOME_URI=http://localhost:40001
+      - API_URI=http://localhost:40002
+      - HOME_PORT=40001
+      - NITRO_PORT=40001
+      - API_PORT=40002
     ports:
-      - "40001:40001"
-      - "40002:40002"
+      - '40001:40001'
+      - '40002:40002'
+
+  db:
+    container_name: db
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - ./mongodb-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: svbot
+    ports:
+      - '27017:27017'
+
   caddy:
+    container_name: caddy
     image: caddy:2.6
     restart: unless-stopped
     volumes:
@@ -25,5 +43,5 @@ services:
       - ./caddy/data:/data
       - ./caddy/config:/config
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
