@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
-console.log('nuxt.config', process.env.HOME_URI, process.env.API_URI, process.env)
+console.log('nuxt.config', process.env.HOME_URI, process.env.API_URI)
 export default defineNuxtConfig({
 	app: {
 		head: {
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			HOME_URI: process.env.HOME_URI || 'http://localhost:4001',
-			API_URI: process.env.API_URI || 'http://localhost:4002',
+			API_URI: process.env.API_URI || '',
 		},
 	},
 	server: {
