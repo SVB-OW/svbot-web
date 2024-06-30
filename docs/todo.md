@@ -3,10 +3,11 @@
 Features or changes that are planned for the future ordered by priority.
 
 - [x] Second row in /chooseRank to select the rank of the enemy team
+- [x] Allow contestants to have a team name and group/sort the leaderboard by team name
 - [x] Check if contestant name already exists in leaderboard and continue their run instead of creating a new entry
 - [x] Allow stacking of handicaps / bounties
 - [x] Upgrade to Nuxt 3 / Vue 3
-- [ ] Allow DB to be changed via ENV
+- [x] Allow DB to be changed via ENV
 - [ ] Use single port for both server and client
 - [ ] Additional templates for streamers (icons, handicap list, list with explanation)
 - [ ] View-Only Mode: Add fixed key auth in URL to enable/prevent interaction with the page
