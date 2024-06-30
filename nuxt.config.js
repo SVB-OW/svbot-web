@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			HOME_URI: process.env.HOME_URI || 'http://localhost:4001',
-			API_URI: process.env.API_URI || '',
+			API_URI: process.env.API_URI || 'http://localhost:4002',
 		},
 	},
 	server: {

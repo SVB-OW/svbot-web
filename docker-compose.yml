@@ -5,6 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
+      args:
+        HOME_URI: $HOME_URI
+        API_URI: $API_URI
     restart: unless-stopped
     volumes:
       - ./src:/home/node/app/src
