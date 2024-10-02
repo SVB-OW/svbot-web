@@ -1,6 +1,6 @@
 # SVBot Web
 
-This is the web interface used for SVB's The Ranked Gauntlet
+Web interface used for SVB's The Ranked Gauntlet
 
 ## Stack
 
@@ -12,6 +12,14 @@ Vue in Nuxt with TypeScript, MongoDB and Socket.io
 - Figma Demo:
   <https://www.figma.com/design/ZIaIC7sFGchAHS9T3FhH6e/SVBot-Web?node-id=5-3>
 
+## Usage Documentation and Stream Setup
+
+User documentation can be found [here](./docs/streamer.md).
+
+## Dev Docs
+
+Getting started and development documentation can be found [here](./docs/dev.md).
+
 ## Future Tasks
 
-(See [ToDo's](./docs/todo.md) for more details)
+Future and currently worked on tasks are tracked in the [GitHub Project](https://github.com/orgs/SVB-OW/projects/1/views/1).
