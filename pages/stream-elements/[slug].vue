@@ -1,4 +1,4 @@
-<!-- 
+<!--
 	Examples:
 	http://localhost:4001/stream-elements/the-leaderboard
 	http://localhost:4001/stream-elements/the-handicaps
@@ -25,8 +25,7 @@ const { load: loadCurrentGame } = useCurrentGameStore()
 onMounted(async () => {
 	await loadContestants()
 	await loadCurrentGame()
-	useNuxtApp().$subscribeCurrentGame()
-	useNuxtApp().$subscribeContestants()
+	useNuxtApp().$subscribeSSE()
 })
 
 definePageMeta({

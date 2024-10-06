@@ -5,23 +5,15 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
-      args:
-        HOME_URI: $HOME_URI
-        API_URI: $API_URI
     restart: unless-stopped
     volumes:
       - ./src:/home/node/app/src
     environment:
       - NODE_ENV=production
       - MONGO_URI=mongodb://db:27017/svbot
-      - HOME_URI=http://localhost:40001
-      - API_URI=http://localhost:40002
-      - HOME_PORT=40001
       - NITRO_PORT=40001
-      - API_PORT=40002
     ports:
       - '40001:40001'
-      - '40002:40002'
 
   db:
     container_name: db

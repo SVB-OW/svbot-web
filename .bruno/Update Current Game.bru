@@ -1,0 +1,27 @@
+meta {
+  name: Update Current Game
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{BASE_URI}}/api/currentGame
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "contestantId": "670274d894d7c403c49e87e8",
+    "contestantName": "test1",
+    "teamName": "t1",
+    "rank": "silver",
+    "rank2": "gold",
+    "handicaps": [],
+    "bounty": {
+      "points": 2,
+      "img": "emote_on_dead_body.png",
+      "text": "Emote on Dead Body"
+    }
+  }
+}
