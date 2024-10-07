@@ -4,7 +4,7 @@ Web interface used for SVB's The Ranked Gauntlet
 
 ## Stack
 
-Vue in Nuxt with TypeScript, MongoDB and Socket.io
+MNVN: MongoDB, Nuxt, Vue, Node
 
 ## Links
 
@@ -15,6 +15,10 @@ Vue in Nuxt with TypeScript, MongoDB and Socket.io
 ## Usage Documentation and Stream Setup
 
 User documentation can be found [here](./docs/streamer.md).
+
+## Changelog
+
+All notable changes to this project will be documented [here](./docs/CHANGELOG.md).
 
 ## Dev Docs
 

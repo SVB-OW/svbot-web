@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Bounty, Handicap } from '@/types'
+import { Bounty, type Handicap } from '@/types'
 import { Game } from '@/types'
 
 const { list: allBounties } = storeToRefs(useBountiesStore())
@@ -175,7 +175,7 @@ function selectedHandicap(handicap: Handicap): Handicap | undefined {
 
 function updateBounty(event: Event): void {
 	const stack = parseInt((event.target as HTMLInputElement).value)
-	updateCurrentGame({ ...currentGame.value, bounty: { ...currentGame.value.bounty, stack } })
+	updateCurrentGame({ ...currentGame.value, bounty: new Bounty({ ...currentGame.value.bounty, stack }) })
 }
 
 function resetCurrentGame(): void {

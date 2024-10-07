@@ -17,8 +17,7 @@
 onMounted(async () => {
 	await useContestantsStore().load()
 	useCurrentGameStore().load()
-	useNuxtApp().$subscribeCurrentGame()
-	useNuxtApp().$subscribeContestants()
+	useNuxtApp().$subscribeSSE()
 })
 </script>
 

@@ -15,49 +15,30 @@ export const useContestantsStore = defineStore('contestants', {
 	},
 	actions: {
 		async load() {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
+			const apiEndpoint = '/api/contestants'
 			const res = (await (await fetch(apiEndpoint)).json()) as Contestant[]
 			this.list = res
 		},
 		async create(payload: Partial<Contestant>) {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
+			const apiEndpoint = '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(new Contestant(payload)),
 			}).then(response => response.json() as Promise<InsertOneResult<Document>>)
 
 			payload._id = res.insertedId.toString()
-			this.list.push(new Contestant(payload))
 			return res.insertedId.toString()
 		},
 		async update(payload: Contestant) {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
+			const apiEndpoint = '/api/contestants'
 			const res = await fetch(apiEndpoint, {
 				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(new Contestant(payload)),
 			}).then(response => response.json() as Promise<UpdateResult<Document>>)
 
-			const foundIndex = this.list.findIndex((e: Contestant) => e._id === payload._id)
-			if (foundIndex >= 0) this.list.splice(foundIndex, 1, new Contestant(payload))
 			return res
-		},
-		async delete(payload: string) {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/contestants'
-			await fetch(apiEndpoint, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: payload,
-			})
-			const foundIndex = this.list.findIndex((e: Contestant) => e._id === payload)
-			if (foundIndex >= 0) this.list.splice(foundIndex, 1)
 		},
 	},
 })

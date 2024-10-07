@@ -17,16 +17,17 @@ export default defineNuxtConfig({
 			],
 		},
 	},
-	runtimeConfig: {
-		public: {
-			HOME_URI: process.env.HOME_URI || 'http://localhost:4001',
-			API_URI: process.env.API_URI || 'http://localhost:4002',
-		},
-	},
-	server: {
-		host: '0.0.0.0',
-		port: process.env.HOME_PORT || 4001,
-	},
+
 	ssr: false,
 	modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxtjs/stylelint-module'],
+
+	nitro: {
+		experimental: {
+			websocket: true,
+			asyncContext: true,
+			openAPI: true,
+		},
+	},
+
+	compatibilityDate: '2024-09-27',
 })

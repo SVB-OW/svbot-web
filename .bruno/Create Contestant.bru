@@ -1,0 +1,27 @@
+meta {
+  name: Create Contestant
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASE_URI}}/api/contestants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "_id": "670274d894d7c403c49e87e8",
+    "name": "test1",
+    "teamName": "t1",
+    "personalBest": 0,
+    "bronzePoints": 0,
+    "silverPoints": 0,
+    "goldPoints": 0,
+    "platinumPoints": 0,
+    "diamondPoints": 0,
+    "masterPoints": 0,
+    "grandmasterPoints": 0
+  }
+}

@@ -1,8 +1,5 @@
 FROM node:20-alpine as base
 
-ARG HOME_URI
-ARG API_URI
-
 WORKDIR /home/node/app
 
 COPY . .

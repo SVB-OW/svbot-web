@@ -5,7 +5,6 @@ import { useContestantsStore } from './contestants'
 import { useBountiesStore } from './bounties'
 import { useHandicapsStore } from './handicaps'
 import { useRanksStore } from './ranks'
-import { useNuxtApp } from 'nuxt/app'
 
 export type CurrentGameState = {
 	currentGame: Game
@@ -30,11 +29,11 @@ export const useCurrentGameStore = defineStore('currentGame', {
 	},
 	actions: {
 		async read() {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
+			const apiEndpoint = '/api/currentGame'
 			return fetch(apiEndpoint).then(res => res.json())
 		},
 		async load() {
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
+			const apiEndpoint = '/api/currentGame'
 			const game: Game = await $fetch(apiEndpoint)
 			this.currentGame = Object.assign({}, this.currentGame, game)
 			useHandicapsStore().load(this.currentGame)
@@ -55,15 +54,10 @@ export const useCurrentGameStore = defineStore('currentGame', {
 
 			payload.wager = Math.floor(amountHandicaps + amountBounties)
 
-			const { $publishCurrentGame } = useNuxtApp()
-			$publishCurrentGame(payload)
-
-			const apiEndpoint = useRuntimeConfig().public.API_URI + '/api/currentGame'
+			const apiEndpoint = '/api/currentGame'
 			return await fetch(apiEndpoint, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload),
 			})
 		},
