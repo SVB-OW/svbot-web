@@ -3,6 +3,7 @@ import { MongoClient } from 'mongodb'
 
 let _db: Db | undefined
 
+// TODO: Currently doesn't work, because Cloudflare Pages doesn't support tcp
 export function getDB() {
 	if (!_db) {
 		const client = new MongoClient(import.meta.env.MONGO_URI as string, {})
