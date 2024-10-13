@@ -57,8 +57,7 @@ async function start(): Promise<void> {
 }
 
 function continueRun(c: Contestant): void {
-	const { update } = useCurrentGameStore()
-	update({ contestantId: c._id, contestantName: c.name, teamName: c.teamName })
+	updateCurrentGame({ contestantId: c._id, contestantName: c.name, teamName: c.teamName })
 	navigateTo('/chooseRank')
 }
 </script>

@@ -32,6 +32,12 @@ export const useContestantsStore = defineStore('contestants', {
 		},
 		async update(payload: Contestant) {
 			const apiEndpoint = '/api/contestants'
+			const currentGameStore = useCurrentGameStore()
+			if (!payload._id) {
+				payload._id = currentGameStore.currentGame.contestantId
+				payload.name = currentGameStore.currentGame.contestantName
+			}
+
 			const res = await fetch(apiEndpoint, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
